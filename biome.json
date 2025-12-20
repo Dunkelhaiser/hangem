@@ -1,0 +1,136 @@
+{
+    "$schema": "https://biomejs.dev/schemas/2.3.10/schema.json",
+    "vcs": {
+        "enabled": true,
+        "clientKind": "git",
+        "useIgnoreFile": true
+    },
+    "files": {
+        "ignoreUnknown": false,
+        "includes": [
+            "**/src/**/*",
+            "**/index.html",
+            "**/vite.config.ts",
+            "!**/src/routeTree.gen.ts",
+            "!**/src/styles.css"
+        ]
+    },
+    "formatter": {
+        "enabled": true,
+        "indentStyle": "space",
+        "bracketSameLine": false,
+        "bracketSpacing": true,
+        "formatWithErrors": true,
+        "indentWidth": 4,
+        "lineWidth": 120,
+        "expand": "auto"
+    },
+    "html": {
+        "formatter": {
+            "enabled": true,
+            "indentStyle": "space",
+            "bracketSameLine": false,
+            "indentWidth": 4,
+            "lineWidth": 120
+        }
+    },
+    "linter": {
+        "enabled": true,
+        "rules": {
+            "recommended": true,
+            "style": "error",
+            "correctness": "error",
+            "performance": "error",
+            "security": "error",
+            "a11y": "error",
+            "complexity": "error",
+            "suspicious": "error"
+        }
+    },
+    "javascript": {
+        "formatter": {
+            "enabled": true,
+            "quoteStyle": "double",
+            "arrowParentheses": "always",
+            "trailingCommas": "es5",
+            "indentWidth": 4,
+            "lineWidth": 120,
+            "expand": "auto",
+            "indentStyle": "space",
+            "jsxQuoteStyle": "double",
+            "semicolons": "always",
+            "bracketSameLine": false,
+            "bracketSpacing": true,
+            "quoteProperties": "asNeeded"
+        }
+    },
+    "css": {
+        "parser": {
+            "tailwindDirectives": true
+        }
+    },
+    "json": {
+        "formatter": {
+            "enabled": true,
+            "trailingCommas": "none",
+            "bracketSpacing": true,
+            "indentWidth": 4,
+            "lineWidth": 120,
+            "expand": "auto",
+            "indentStyle": "space"
+        }
+    },
+    "assist": {
+        "enabled": true,
+        "actions": {
+            "source": {
+                "organizeImports": "on"
+            }
+        }
+    },
+    "overrides": [
+        {
+            "includes": ["**/*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc,astro,css}"],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noDefaultExport": "off",
+                        "useFilenamingConvention": "off",
+                        "noImplicitBoolean": "off",
+                        "useComponentExportOnlyModules": "off",
+                        "useExportsLast": "off"
+                    },
+                    "security": {
+                        "noSecrets": "off"
+                    },
+                    "suspicious": {
+                        "noUnknownAtRules": "off",
+                        "noReactSpecificProps": "off"
+                    },
+                    "correctness": {
+                        "useImportExtensions": "off",
+                        "noSolidDestructuredProps": "off",
+                        "useImageSize": "off"
+                    },
+                    "performance": {
+                        "useSolidForComponent": "off",
+                        "noImgElement": "off"
+                    },
+                    "complexity": {
+                        "noExcessiveLinesPerFunction": "off"
+                    }
+                }
+            }
+        },
+        {
+            "includes": ["**/components/Gap.tsx"],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noMagicNumbers": "off"
+                    }
+                }
+            }
+        }
+    ]
+}
