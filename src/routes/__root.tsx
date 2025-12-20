@@ -2,7 +2,7 @@ import { createRootRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createRootRoute({
     component: () => (
-        <>
+        <main>
             <Outlet />
             {/* <TanStackDevtools
                 config={{
@@ -15,6 +15,6 @@ export const Route = createRootRoute({
                     },
                 ]}
             /> */}
-        </>
+        </main>
     ),
 });
