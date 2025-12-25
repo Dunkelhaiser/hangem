@@ -3,27 +3,27 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-    "relative inline-flex items-center justify-center whitespace-nowrap font-mono font-black uppercase tracking-widest transition-all outline-none select-none cursor-pointer disabled:opacity-50 disabled:pointer-events-none active:duration-75 border-2 rounded-[8px_12px_10px_15px_/_12px_8px_15px_10px]",
+    "relative inline-flex items-center justify-center whitespace-nowrap font-mono font-black uppercase tracking-widest transition-all outline-none select-none cursor-pointer disabled:opacity-50 disabled:pointer-events-none active:duration-75 border-2 rounded-sketchy",
     {
         variants: {
             variant: {
                 default: `
-                    bg-primary text-primary-foreground border-border shadow-[3.5px_3.5px_0px] shadow-ring
-                    hover:translate-x-[0.75px] hover:translate-y-[0.75px] hover:shadow-[2.75px_2.75px_0px]
-                    focus-visible:translate-x-[0.75px] focus-visible:translate-y-[0.75px] focus-visible:shadow-[2.75px_2.75px_0px]
-                    active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1.5px_1.5px_0px]
+                    bg-primary text-primary-foreground border-border shadow-ring shadow-deep
+                    hover:translate-x-hover hover:translate-y-hover hover:shadow-medium
+                    focus-visible:translate-x-hover focus-visible:translate-y-hover focus-visible:shadow-medium
+                    active:translate-x-active active:translate-y-active active:shadow-base
                 `,
                 secondary: `
-                    bg-secondary text-secondary-foreground border-ring shadow-[3.5px_3.5px_0px] shadow-ring
-                    hover:translate-x-[0.75px] hover:translate-y-[0.75px] hover:shadow-[2.75px_2.75px_0px]
-                    focus-visible:translate-x-[0.75px] focus-visible:translate-y-[0.75px] focus-visible:shadow-[2.75px_2.75px_0px]
-                    active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1.5px_1.5px_0px]
+                    bg-secondary text-secondary-foreground border-ring shadow-ring shadow-deep
+                    hover:translate-x-hover hover:translate-y-hover hover:shadow-medium
+                    focus-visible:translate-x-hover focus-visible:translate-y-hover focus-visible:shadow-medium
+                    active:translate-x-active active:translate-y-active active:shadow-base
                 `,
                 outline: `
-                    border-border text-border shadow-[3.5px_3.5px_0px] shadow-ring
-                    hover:translate-x-[0.75px] hover:translate-y-[0.75px] hover:shadow-[2.75px_2.75px_0px] hover:bg-secondary/5
-                    focus-visible:translate-x-[0.75px] focus-visible:translate-y-[0.75px] focus-visible:shadow-[2.75px_2.75px_0px] focus-visible:bg-secondary/5
-                    active:bg-secondary/5 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1.5px_1.5px_0px]
+                    border-border text-border shadow-ring shadow-deep
+                    hover:translate-x-hover hover:translate-y-hover hover:shadow-medium hover:bg-secondary/5
+                    focus-visible:translate-x-hover focus-visible:translate-y-hover focus-visible:shadow-medium focus-visible:bg-secondary/5
+                    active:bg-secondary/5 active:translate-x-active active:translate-y-active active:shadow-base
                     dark:text-secondary-foreground
                 `,
                 ghost: `
@@ -34,10 +34,10 @@ const buttonVariants = cva(
                     dark:text-secondary-foreground/80 dark:hover:bg-secondary/30 dark:active:bg-secondary/30 dark:focus-visible:bg-secondary/30
                 `,
                 destructive: `
-                    bg-destructive/5 text-destructive border-destructive shadow-[3.5px_3.5px_0px] shadow-destructive
-                    hover:translate-x-[0.75px] hover:translate-y-[0.75px] hover:shadow-[2.75px_2.75px_0px] hover:bg-destructive/10
-                    focus-visible:translate-x-[0.75px] focus-visible:translate-y-[0.75px] focus-visible:shadow-[2.75px_2.75px_0px] focus-visible:bg-destructive/10
-                    active:bg-destructive/10 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1.5px_1.5px_0px]
+                    bg-destructive/5 text-destructive border-destructive shadow-destructive shadow-deep
+                    hover:translate-x-hover hover:translate-y-hover hover:shadow-medium hover:bg-destructive/10
+                    focus-visible:translate-x-hover focus-visible:translate-y-hover focus-visible:shadow-medium focus-visible:bg-destructive/10
+                    active:bg-destructive/10 active:translate-x-active active:translate-y-active active:shadow-base
                     dark:bg-destructive/15 dark:hover:bg-destructive/20 dark:active:bg-destructive/20
                 `,
                 link: `
