@@ -7,20 +7,40 @@ const buttonVariants = cva(
     {
         variants: {
             variant: {
-                default:
-                    "bg-primary text-primary-foreground border-border shadow-[3.5px_3.5px_0px] shadow-ring " +
-                    "active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1.5px_1.5px_0px] shadow-ring",
-                secondary:
-                    "bg-secondary text-secondary-foreground border-ring shadow-[3.5px_3.5px_0px] shadow-ring " +
-                    "active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1.5px_1.5px_0px]",
-                outline:
-                    "border-border text-border dark:text-secondary-foreground hover:bg-secondary/5 active:bg-secondary/5 shadow-[3.5px_3.5px_0px] shadow-ring " +
-                    "active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1.5px_1.5px_0px]",
-                ghost: "text-secondary/80 dark:text-secondary-foreground/80 border-transparent border-dashed hover:bg-secondary/5 active:bg-secondary/5 hover:border-secondary/80 active:border-secondary/80 focus-visible:bg-secondary/5 focus-visible:border-secondary/80 dark:hover:bg-secondary/30 dark:active:bg-secondary/30 dark:focus-visible:bg-secondary/30",
-                destructive:
-                    "bg-destructive/5 hover:bg-destructive/10 active:bg-destructive/10 dark:bg-destructive/15 dark:hover:bg-destructive/20 dark:active:bg-destructive/20 text-destructive border-destructive shadow-[3.5px_3.5px_0px] shadow-destructive " +
-                    "active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1.5px_1.5px_0px] ",
-                link: "border-none p-0 text-primary-foreground dark:text-secondary-foreground underline-offset-4 hover:underline active:underline focus-visible:underline",
+                default: `
+                    bg-primary text-primary-foreground border-border shadow-[3.5px_3.5px_0px] shadow-ring
+                    active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1.5px_1.5px_0px]
+                `,
+                secondary: `
+                    bg-secondary text-secondary-foreground border-ring shadow-[3.5px_3.5px_0px] shadow-ring
+                    active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1.5px_1.5px_0px]
+                `,
+                outline: `
+                    border-border text-border shadow-[3.5px_3.5px_0px] shadow-ring
+                    hover:bg-secondary/5
+                    active:bg-secondary/5 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1.5px_1.5px_0px]
+                    dark:text-secondary-foreground
+                `,
+                ghost: `
+                    text-secondary/80 border-transparent border-dashed
+                    hover:bg-secondary/5 hover:border-secondary/80
+                    active:bg-secondary/5 active:border-secondary/80
+                    focus-visible:bg-secondary/5 focus-visible:border-secondary/80
+                    dark:text-secondary-foreground/80 dark:hover:bg-secondary/30 dark:active:bg-secondary/30 dark:focus-visible:bg-secondary/30
+                `,
+                destructive: `
+                    bg-destructive/5 text-destructive border-destructive shadow-[3.5px_3.5px_0px] shadow-destructive
+                    hover:bg-destructive/10
+                    active:bg-destructive/10 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1.5px_1.5px_0px]
+                    dark:bg-destructive/15 dark:hover:bg-destructive/20 dark:active:bg-destructive/20
+                `,
+                link: `
+                    border-none p-0 text-primary-foreground underline-offset-4
+                    hover:underline
+                    active:underline
+                    focus-visible:underline
+                    dark:text-secondary-foreground
+                `,
             },
             size: {
                 default: "h-10 px-6 py-2.5 text-sm",
