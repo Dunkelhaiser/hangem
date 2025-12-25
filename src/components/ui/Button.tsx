@@ -2,28 +2,21 @@ import { Button as ButtonPrimitive } from "@base-ui/react/button";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
+const pressableButtonShadow = `hover:translate-hover hover:shadow-medium
+        focus-visible:translate-hover focus-visible:shadow-medium
+        active:translate-active active:shadow-base active:duration-75`;
+
 const buttonVariants = cva(
     "relative inline-flex items-center justify-center whitespace-nowrap font-mono font-black uppercase tracking-widest transition-all outline-none select-none cursor-pointer disabled:opacity-50 disabled:pointer-events-none active:duration-75 border-2 rounded-sketchy",
     {
         variants: {
             variant: {
-                default: `
-                    bg-primary text-primary-foreground border-border shadow-ring shadow-deep
-                    hover:translate-hover hover:shadow-medium
-                    focus-visible:translate-hover focus-visible:shadow-medium
-                    active:translate-active active:shadow-base
-                `,
-                secondary: `
-                    bg-secondary text-secondary-foreground border-ring shadow-ring shadow-deep
-                    hover:translate-hover hover:shadow-medium
-                    focus-visible:translate-hover focus-visible:shadow-medium
-                    active:translate-active active:shadow-base
-                `,
+                default: `bg-primary text-primary-foreground border-border shadow-ring shadow-deep ${pressableButtonShadow}`,
+                secondary: `bg-secondary text-secondary-foreground border-ring shadow-ring shadow-deep ${pressableButtonShadow}`,
                 outline: `
                     border-border text-border shadow-ring shadow-deep
-                    hover:translate-hover hover:shadow-medium hover:bg-secondary/5
-                    focus-visible:translate-hover focus-visible:shadow-medium focus-visible:bg-secondary/5
-                    active:bg-secondary/5 active:translate-active active:shadow-base
+                    hover:bg-secondary/5 focus-visible:bg-secondary/5 active:bg-secondary/5
+                    ${pressableButtonShadow}
                     dark:text-secondary-foreground
                 `,
                 ghost: `
@@ -35,9 +28,8 @@ const buttonVariants = cva(
                 `,
                 destructive: `
                     bg-destructive/5 text-destructive border-destructive shadow-destructive shadow-deep
-                    hover:translate-hover hover:shadow-medium hover:bg-destructive/10
-                    focus-visible:translate-hover focus-visible:shadow-medium focus-visible:bg-destructive/10
-                    active:bg-destructive/10 active:translate-active active:shadow-base
+                    hover:bg-destructive/10 focus-visible:bg-destructive/10 active:bg-destructive/10
+                    ${pressableButtonShadow}
                     dark:bg-destructive/15 dark:hover:bg-destructive/20 dark:active:bg-destructive/20
                 `,
                 link: `
