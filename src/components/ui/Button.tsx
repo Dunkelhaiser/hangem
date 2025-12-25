@@ -9,21 +9,21 @@ const buttonVariants = cva(
             variant: {
                 default: `
                     bg-primary text-primary-foreground border-border shadow-ring shadow-deep
-                    hover:translate-x-hover hover:translate-y-hover hover:shadow-medium
-                    focus-visible:translate-x-hover focus-visible:translate-y-hover focus-visible:shadow-medium
-                    active:translate-x-active active:translate-y-active active:shadow-base
+                    hover:translate-hover hover:shadow-medium
+                    focus-visible:translate-hover focus-visible:shadow-medium
+                    active:translate-active active:shadow-base
                 `,
                 secondary: `
                     bg-secondary text-secondary-foreground border-ring shadow-ring shadow-deep
-                    hover:translate-x-hover hover:translate-y-hover hover:shadow-medium
-                    focus-visible:translate-x-hover focus-visible:translate-y-hover focus-visible:shadow-medium
-                    active:translate-x-active active:translate-y-active active:shadow-base
+                    hover:translate-hover hover:shadow-medium
+                    focus-visible:translate-hover focus-visible:shadow-medium
+                    active:translate-active active:shadow-base
                 `,
                 outline: `
                     border-border text-border shadow-ring shadow-deep
-                    hover:translate-x-hover hover:translate-y-hover hover:shadow-medium hover:bg-secondary/5
-                    focus-visible:translate-x-hover focus-visible:translate-y-hover focus-visible:shadow-medium focus-visible:bg-secondary/5
-                    active:bg-secondary/5 active:translate-x-active active:translate-y-active active:shadow-base
+                    hover:translate-hover hover:shadow-medium hover:bg-secondary/5
+                    focus-visible:translate-hover focus-visible:shadow-medium focus-visible:bg-secondary/5
+                    active:bg-secondary/5 active:translate-active active:shadow-base
                     dark:text-secondary-foreground
                 `,
                 ghost: `
@@ -35,9 +35,9 @@ const buttonVariants = cva(
                 `,
                 destructive: `
                     bg-destructive/5 text-destructive border-destructive shadow-destructive shadow-deep
-                    hover:translate-x-hover hover:translate-y-hover hover:shadow-medium hover:bg-destructive/10
-                    focus-visible:translate-x-hover focus-visible:translate-y-hover focus-visible:shadow-medium focus-visible:bg-destructive/10
-                    active:bg-destructive/10 active:translate-x-active active:translate-y-active active:shadow-base
+                    hover:translate-hover hover:shadow-medium hover:bg-destructive/10
+                    focus-visible:translate-hover focus-visible:shadow-medium focus-visible:bg-destructive/10
+                    active:bg-destructive/10 active:translate-active active:shadow-base
                     dark:bg-destructive/15 dark:hover:bg-destructive/20 dark:active:bg-destructive/20
                 `,
                 link: `
