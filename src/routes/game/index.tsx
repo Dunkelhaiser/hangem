@@ -7,7 +7,7 @@ export const Route = createFileRoute("/game/")({
     component: Game,
 });
 
-const WORD = "EXAMPLE";
+const WORD = "Example Word";
 const MAX_ATTEMPTS = 6;
 
 function Game() {

@@ -22,10 +22,15 @@ const Field = ({ word, guessedLetters, isGameOver }: Props) => {
 
     return (
         <div className="flex flex-wrap justify-center gap-y-4">
-            {word.split("").map((char, index) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: index needed for duplicate letters
-                <Letter key={index} letter={char} variant={getVariant(char)} />
-            ))}
+            {word.split("").map((char, index) =>
+                char === " " ? (
+                    // biome-ignore lint/suspicious/noArrayIndexKey: index needed for duplicate spaces
+                    <div key={index} className="w-6 sm:w-8" />
+                ) : (
+                    // biome-ignore lint/suspicious/noArrayIndexKey: index needed for duplicate letters
+                    <Letter key={index} letter={char} variant={getVariant(char)} />
+                )
+            )}
         </div>
     );
 };
