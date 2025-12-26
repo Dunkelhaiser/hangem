@@ -7,7 +7,7 @@ export const Route = createFileRoute("/game/")({
     component: Game,
 });
 
-const WORD = "Democratic Peoples Republic of Korea";
+const WORD = "Democratic People's Republic of Korea";
 const MAX_ATTEMPTS = 6;
 
 function Game() {
@@ -17,7 +17,8 @@ function Game() {
     const isGameOver = wrongGuesses.length >= MAX_ATTEMPTS;
     const isWin = WORD.toLowerCase()
         .split("")
-        .filter((letter) => letter !== " ")
+        // biome-ignore lint/performance/useTopLevelRegex: doesn't run frequently
+        .filter((char) => /[a-z]/i.test(char))
         .every((letter) => guessedLetters.includes(letter.toLowerCase()));
 
     const handleGuess = useCallback(
