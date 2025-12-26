@@ -20,21 +20,23 @@ const Field = ({ word, guessedLetters, isGameOver }: Props) => {
         }
     };
 
+    const words = word.split(" ");
+
     return (
-        <div className="flex flex-wrap justify-center gap-y-4">
-            {word
-                .split("")
-                // biome-ignore lint/performance/useTopLevelRegex: doesn't run frequently
-                .filter((char) => char === " " || /[a-z]/i.test(char))
-                .map((char, index) =>
-                    char === " " ? (
-                        // biome-ignore lint/suspicious/noArrayIndexKey: index needed for duplicate spaces
-                        <div key={index} className="w-6 sm:w-8" />
-                    ) : (
-                        // biome-ignore lint/suspicious/noArrayIndexKey: index needed for duplicate letters
-                        <Letter key={index} letter={char} variant={getVariant(char)} />
-                    )
-                )}
+        <div className="flex flex-wrap justify-center gap-y-4 gap-x-6 sm:gap-x-8 max-w-full">
+            {words.map((word, wordIndex) => (
+                // biome-ignore lint/suspicious/noArrayIndexKey: index needed for duplicate words
+                <div key={wordIndex} className="flex flex-wrap justify-center max-w-full gap-y-2">
+                    {word
+                        .split("")
+                        // biome-ignore lint/performance/useTopLevelRegex: doesn't run frequently
+                        .filter((char) => /[a-z]/i.test(char))
+                        .map((char, charIndex) => (
+                            // biome-ignore lint/suspicious/noArrayIndexKey: index needed for duplicate letters
+                            <Letter key={charIndex} letter={char} variant={getVariant(char)} />
+                        ))}
+                </div>
+            ))}
         </div>
     );
 };
