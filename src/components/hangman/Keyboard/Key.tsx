@@ -42,7 +42,6 @@ function Key({
         >
             {variant === "wrong" && (
                 <div className="absolute inset-0 flex items-center justify-center">
-                    {/** biome-ignore lint/a11y/noSvgWithoutTitle: decoration */}
                     <svg className="w-full h-full text-muted-foreground/15" viewBox="0 0 100 100">
                         <line
                             x1="10"

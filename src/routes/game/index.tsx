@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useState } from "react";
 import { Field } from "@/components/hangman/Field/Field";
+import { Gallows } from "@/components/hangman/Gallows";
 import { Keyboard } from "@/components/hangman/Keyboard/Keyboard";
 
 export const Route = createFileRoute("/game/")({
@@ -37,6 +38,7 @@ function Game() {
     return (
         <div className="flex flex-col gap-12 items-center px-2 py-8">
             <p className="text-lg font-medium">Attempts remaining: {MAX_ATTEMPTS - wrongGuesses.length}</p>
+            <Gallows stage={wrongGuesses.length} />
             <Field word={WORD} guessedLetters={guessedLetters} isGameOver={isGameOver} />
             <Keyboard
                 word={WORD}
