@@ -1,19 +1,20 @@
+import type { Button as ButtonPrimitive } from "@base-ui/react/button";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { Button } from "@/ui/Button";
 
-const keyVariants = cva("rounded-square disabled:opacity-100 font-mono font-bold text-xl", {
+const keyVariants = cva("rounded-square font-mono font-bold text-xl", {
     variants: {
         variant: {
             idle: "",
             correct: `
                     bg-success/20 text-success border-success shadow-success line-through
-                    dark:bg-success/15
+                    dark:bg-success/15 disabled:opacity-100
                     translate-active shadow-[1.5px_1.5px_0px]
                 `,
             wrong: `
                     bg-muted-foreground/5 text-muted-foreground/50 border-muted-foreground/50 shadow-muted-foreground/50
-                    dark:bg-muted-foreground/15 
+                    dark:bg-muted-foreground/15 disabled:opacity-100
                     translate-active shadow-[1.5px_1.5px_0px]
                 `,
         },
@@ -27,9 +28,10 @@ function Key({
     variant = "idle",
     letter,
     ...props
-}: VariantProps<typeof keyVariants> & {
-    letter: string;
-}) {
+}: ButtonPrimitive.Props &
+    VariantProps<typeof keyVariants> & {
+        letter: string;
+    }) {
     return (
         <Button
             variant="default"
