@@ -7,7 +7,7 @@ export const Route = createFileRoute("/game/")({
     component: Game,
 });
 
-const WORD = "Example Word";
+const WORD = "Democratic Peoples Republic of Korea";
 const MAX_ATTEMPTS = 6;
 
 function Game() {
@@ -17,6 +17,7 @@ function Game() {
     const isGameOver = wrongGuesses.length >= MAX_ATTEMPTS;
     const isWin = WORD.toLowerCase()
         .split("")
+        .filter((letter) => letter !== " ")
         .every((letter) => guessedLetters.includes(letter.toLowerCase()));
 
     const handleGuess = useCallback(
