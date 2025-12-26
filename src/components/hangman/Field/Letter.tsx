@@ -11,8 +11,8 @@ const letterVariants = cva(
         variants: {
             variant: {
                 hidden: "bg-accent shadow-[1.5px_1.5px_0px] translate-active",
-                guessed: "bg-white shadow-[3.5px_3.5px_0px]",
-                reveal: "bg-white shadow-[3.5px_3.5px_0px]",
+                guessed: "bg-white shadow-[3.5px_3.5px_0px] -translate-y-[1.5px]",
+                reveal: "bg-white shadow-[3.5px_3.5px_0px] -translate-y-[1.5px]",
             },
             defaultVariants: {
                 variant: "hidden",
