@@ -14,6 +14,7 @@
     --translate-hover: 0.75px;
     --translate-active: 2px;
     --radius-sketchy: 8px 12px 10px 15px / 12px 8px 15px 10px;
+    --radius-square: 4px 7px 5px 8px / 6px 4px 8px 5px;
     --color-background: var(--background);
     --color-foreground: var(--foreground);
     --color-card: var(--card);
@@ -29,6 +30,8 @@
     --color-accent: var(--accent);
     --color-accent-foreground: var(--accent-foreground);
     --color-destructive: var(--destructive);
+    --color-success: var(--success);
+    --color-warning: var(--warning);
     --color-border: var(--border);
     --color-input: var(--input);
     --color-ring: var(--ring);
