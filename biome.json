@@ -101,6 +101,9 @@
                         "useExportsLast": "off",
                         "useBlockStatements": "off"
                     },
+                    "a11y": {
+                        "noSvgWithoutTitle": "off"
+                    },
                     "security": {
                         "noSecrets": "off"
                     },
