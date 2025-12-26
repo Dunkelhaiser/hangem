@@ -37,7 +37,6 @@ function Game() {
 
     return (
         <div className="flex flex-col gap-12 items-center px-2 py-8">
-            <p className="text-lg font-medium">Attempts remaining: {MAX_ATTEMPTS - wrongGuesses.length}</p>
             <Gallows stage={wrongGuesses.length} />
             <Field word={WORD} guessedLetters={guessedLetters} isGameOver={isGameOver} />
             <Keyboard
