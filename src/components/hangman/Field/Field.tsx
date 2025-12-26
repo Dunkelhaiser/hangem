@@ -23,7 +23,7 @@ const Field = ({ word, guessedLetters, isGameOver }: Props) => {
     const words = word.split(" ");
 
     return (
-        <div className="flex flex-wrap justify-center gap-y-4 gap-x-6 sm:gap-x-8 max-w-full">
+        <div className="flex flex-wrap justify-center gap-y-4 gap-x-6 sm:gap-x-8 max-w-7xl">
             {words.map((word, wordIndex) => (
                 // biome-ignore lint/suspicious/noArrayIndexKey: index needed for duplicate words
                 <div key={wordIndex} className="flex flex-wrap justify-center max-w-full gap-y-2">
