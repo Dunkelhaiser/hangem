@@ -33,7 +33,7 @@ const Keyboard = () => {
     return (
         <div className="flex flex-wrap justify-center max-w-lg mx-auto gap-2.5">
             {alphabet.map((letter) => (
-                <Key value={letter} variant="idle" key={letter} />
+                <Key letter={letter} variant="idle" key={letter} />
             ))}
         </div>
     );

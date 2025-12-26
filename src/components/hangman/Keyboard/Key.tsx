@@ -25,10 +25,10 @@ const keyVariants = cva("rounded-square disabled:opacity-100 font-mono font-bold
 
 function Key({
     variant = "idle",
-    value,
+    letter,
     ...props
 }: VariantProps<typeof keyVariants> & {
-    value: string;
+    letter: string;
 }) {
     return (
         <Button
@@ -63,7 +63,7 @@ function Key({
                     </svg>
                 </div>
             )}
-            {value}
+            {letter}
         </Button>
     );
 }
