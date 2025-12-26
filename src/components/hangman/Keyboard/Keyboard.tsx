@@ -1,3 +1,4 @@
+import { useHotkeys } from "react-hotkeys-hook";
 import { Key } from "./Key";
 
 const alphabet = [
@@ -37,6 +38,18 @@ interface Props {
 }
 
 const Keyboard = ({ word, guessedLetters, onGuess, disabled }: Props) => {
+    useHotkeys(
+        alphabet.join(","),
+        (_, handler) => {
+            const key = handler.keys?.join("");
+            if (key && !disabled && !guessedLetters.includes(key.toLowerCase())) {
+                onGuess(key);
+            }
+        },
+        { enabled: !disabled },
+        [guessedLetters, onGuess, disabled]
+    );
+
     const getKeyVariant = (letter: string) => {
         const lowerLetter = letter.toLowerCase();
         const isGuessed = guessedLetters.includes(lowerLetter);
