@@ -98,7 +98,8 @@
                         "useFilenamingConvention": "off",
                         "noImplicitBoolean": "off",
                         "useComponentExportOnlyModules": "off",
-                        "useExportsLast": "off"
+                        "useExportsLast": "off",
+                        "useBlockStatements": "off"
                     },
                     "security": {
                         "noSecrets": "off"
