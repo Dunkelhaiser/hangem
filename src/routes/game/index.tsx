@@ -1,8 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowLeft } from "lucide-react";
 import { useCallback, useState } from "react";
 import { Field } from "@/components/hangman/Field/Field";
 import { Gallows } from "@/components/hangman/Gallows";
 import { Keyboard } from "@/components/hangman/Keyboard/Keyboard";
+import { Button } from "@/components/ui/Button";
 
 export const Route = createFileRoute("/game/")({
     component: Game,
@@ -36,15 +38,21 @@ function Game() {
     );
 
     return (
-        <div className="flex flex-col gap-12 items-center px-2 py-8">
-            <Gallows stage={wrongGuesses.length} />
-            <Field word={WORD} guessedLetters={guessedLetters} isGameOver={isGameOver} />
-            <Keyboard
-                word={WORD}
-                guessedLetters={guessedLetters}
-                onGuess={handleGuess}
-                disabled={isGameOver || isWin}
-            />
-        </div>
+        <section className="px-2 pt-2 pb-8">
+            <Button variant="link" size="sm" className="gap-1 mb-2" nativeButton={false} render={<Link to="/" />}>
+                <ArrowLeft className="size-4" />
+                Back
+            </Button>
+            <div className="flex flex-col gap-12 items-center">
+                <Gallows stage={wrongGuesses.length} />
+                <Field word={WORD} guessedLetters={guessedLetters} isGameOver={isGameOver} />
+                <Keyboard
+                    word={WORD}
+                    guessedLetters={guessedLetters}
+                    onGuess={handleGuess}
+                    disabled={isGameOver || isWin}
+                />
+            </div>
+        </section>
     );
 }
