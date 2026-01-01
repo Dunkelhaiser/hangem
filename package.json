@@ -17,6 +17,7 @@
         "@faker-js/faker": "^10.1.0",
         "@tailwindcss/vite": "^4.1.18",
         "@tanstack/react-devtools": "^0.8.4",
+        "@tanstack/react-form": "^1.27.7",
         "@tanstack/react-router": "^1.141.8",
         "@tanstack/react-router-devtools": "^1.141.8",
         "@tanstack/router-plugin": "^1.141.8",

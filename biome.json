@@ -115,7 +115,8 @@
                     "correctness": {
                         "useImportExtensions": "off",
                         "noSolidDestructuredProps": "off",
-                        "useImageSize": "off"
+                        "useImageSize": "off",
+                        "noChildrenProp": "off"
                     },
                     "performance": {
                         "useSolidForComponent": "off",
