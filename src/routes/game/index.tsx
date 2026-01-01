@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { useCallback, useState } from "react";
@@ -10,15 +11,17 @@ export const Route = createFileRoute("/game/")({
     component: Game,
 });
 
-const WORD = "Democratic People's Republic of Korea";
+const generateWord = () => faker.word.sample({ length: { min: 3, max: 10 } });
 const MAX_ATTEMPTS = 6;
 
 function Game() {
+    const [word] = useState(generateWord);
     const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
 
-    const wrongGuesses = guessedLetters.filter((letter) => !WORD.toLowerCase().includes(letter.toLowerCase()));
+    const wrongGuesses = guessedLetters.filter((letter) => !word.toLowerCase().includes(letter.toLowerCase()));
     const isGameOver = wrongGuesses.length >= MAX_ATTEMPTS;
-    const isWin = WORD.toLowerCase()
+    const isWin = word
+        .toLowerCase()
         .split("")
         // biome-ignore lint/performance/useTopLevelRegex: doesn't run frequently
         .filter((char) => /[a-z]/i.test(char))
@@ -45,9 +48,9 @@ function Game() {
             </Button>
             <div className="flex flex-col gap-12 items-center">
                 <Gallows stage={wrongGuesses.length} />
-                <Field word={WORD} guessedLetters={guessedLetters} isGameOver={isGameOver} />
+                <Field word={word} guessedLetters={guessedLetters} isGameOver={isGameOver} />
                 <Keyboard
-                    word={WORD}
+                    word={word}
                     guessedLetters={guessedLetters}
                     onGuess={handleGuess}
                     disabled={isGameOver || isWin}
