@@ -11,11 +11,35 @@ export const Route = createFileRoute("/game/")({
     component: Game,
 });
 
-const generateWord = () => faker.word.sample({ length: { min: 3, max: 10 } });
+const categories = [
+    { name: "Animal", generator: () => faker.animal.type() },
+    { name: "Product", generator: () => faker.commerce.product() },
+    { name: "Month", generator: () => faker.date.month() },
+    { name: "Day", generator: () => faker.date.weekday() },
+    { name: "Vegetable", generator: () => faker.food.vegetable() },
+    { name: "Fruit", generator: () => faker.food.fruit() },
+    { name: "Ingredient", generator: () => faker.food.ingredient() },
+    { name: "Spice", generator: () => faker.food.spice() },
+    { name: "Country", generator: () => faker.location.country() },
+    { name: "Continent", generator: () => faker.location.continent() },
+    { name: "Direction", generator: () => faker.location.direction() },
+    { name: "Unit", generator: () => faker.science.unit().name },
+    { name: "Science", generator: () => faker.science.chemicalElement().name },
+    { name: "Color", generator: () => faker.color.human() },
+    { name: "Music", generator: () => faker.music.genre() },
+    { name: "Job", generator: () => faker.person.jobType() },
+    { name: "Vehicle", generator: () => faker.vehicle.type() },
+    { name: "Adjective", generator: () => faker.word.adjective() },
+] as const;
+
+const generateWord = () => {
+    const category = faker.helpers.arrayElement(categories);
+    return { word: category.generator(), category: category.name };
+};
 const MAX_ATTEMPTS = 6;
 
 function Game() {
-    const [word, setWord] = useState(generateWord);
+    const [{ word, category }, setWordData] = useState(generateWord);
     const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
 
     const wrongGuesses = guessedLetters.filter((letter) => !word.toLowerCase().includes(letter.toLowerCase()));
@@ -28,7 +52,7 @@ function Game() {
         .every((letter) => guessedLetters.includes(letter.toLowerCase()));
 
     const handleNextWord = () => {
-        setWord(generateWord());
+        setWordData(generateWord());
         setGuessedLetters([]);
     };
 
@@ -53,9 +77,14 @@ function Game() {
                     Next Word
                 </Button>
             </div>
-            <div className="flex flex-col gap-12 items-center">
+            <div className="flex flex-col gap-8 items-center">
                 <Gallows stage={wrongGuesses.length} />
-                <Field word={word} guessedLetters={guessedLetters} isGameOver={isGameOver} />
+                <div className="flex flex-col items-center gap-4">
+                    <p className="text-muted-foreground text-sm">
+                        Category: <span className="font-semibold text-foreground">{category}</span>
+                    </p>
+                    <Field word={word} guessedLetters={guessedLetters} isGameOver={isGameOver} />
+                </div>
                 <Keyboard
                     word={word}
                     guessedLetters={guessedLetters}
