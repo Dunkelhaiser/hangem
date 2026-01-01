@@ -1,10 +1,14 @@
 import { useState } from "react";
-import { generateWord } from "./generateWord";
+import { generateWord, type WordData } from "./generateWord";
 
 const MAX_ATTEMPTS = 6;
 
-export const useGame = () => {
-    const [{ word, category }, setWordData] = useState(generateWord);
+interface Options {
+    initialWord?: WordData;
+}
+
+export const useGame = (options: Options = {}) => {
+    const [{ word, category }, setWordData] = useState(() => options.initialWord ?? generateWord());
     const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
 
     const wrongGuesses = guessedLetters.filter((letter) => !word.toLowerCase().includes(letter.toLowerCase()));
