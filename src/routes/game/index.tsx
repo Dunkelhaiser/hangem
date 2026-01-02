@@ -5,6 +5,7 @@ import { Gallows } from "@/components/hangman/Gallows";
 import { Keyboard } from "@/components/hangman/Keyboard/Keyboard";
 import { Button } from "@/components/ui/Button";
 import { customWordSearchQuerySchema } from "@/lib/game/customWordSchema";
+import { decodeCustomWord } from "@/lib/game/encoding";
 import { useGame } from "@/lib/game/useGame";
 
 export const Route = createFileRoute("/game/")({
@@ -16,25 +17,9 @@ function Game() {
     const { word: encodedWord } = Route.useSearch();
     const navigate = Route.useNavigate();
 
-    let customWord: string | undefined;
-    let customCategory: string | undefined;
-    try {
-        if (encodedWord) {
-            const binary = atob(encodedWord);
-            const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
-            const decoded = new TextDecoder().decode(bytes);
-            const parsed = JSON.parse(decoded) as { word?: string; category?: string };
-            // biome-ignore lint/performance/useTopLevelRegex: doesn't run frequently
-            const hasLatinChars = parsed.word && /[a-z]/i.test(parsed.word);
-            if (hasLatinChars) {
-                customWord = parsed.word;
-                customCategory = parsed.category;
-            }
-        }
-    } catch {
-        customWord = undefined;
-        customCategory = undefined;
-    }
+    const decoded = encodedWord ? decodeCustomWord(encodedWord) : null;
+    const customWord = decoded?.word;
+    const customCategory = decoded?.category;
 
     if (encodedWord && !customWord) {
         navigate({ search: undefined });

@@ -3,6 +3,7 @@ import { Share2 } from "lucide-react";
 import { useId, useState } from "react";
 import { toast } from "sonner";
 import { customWordSchema } from "@/lib/game/customWordSchema";
+import { encodeCustomWord } from "@/lib/game/encoding";
 import { Button } from "@/ui/Button";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/ui/Dialog";
 import { Input } from "@/ui/Input";
@@ -26,15 +27,10 @@ export const CustomWordDialog = ({ trigger }: Props) => {
         },
         onSubmit: async ({ value }) => {
             const parsedValue = customWordSchema.parse(value);
-
-            const payload = JSON.stringify({
+            const encodedData = encodeCustomWord({
                 word: parsedValue.word,
                 category: parsedValue.category || undefined,
             });
-            const uint8Array = new TextEncoder().encode(payload);
-            let binary = "";
-            for (const byte of uint8Array) binary += String.fromCharCode(byte);
-            const encodedData = btoa(binary);
 
             const url = new URL("/game", window.location.origin);
             url.searchParams.set("word", encodedData);
