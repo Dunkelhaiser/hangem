@@ -1,8 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactElement } from "react";
-import { CustomWordDialog } from "@/components/CustomWordDialog";
 import { Button } from "@/ui/Button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/ui/Dialog";
+import { CustomWordDialog } from "./CustomWordDialog";
 
 interface Props {
     trigger: ReactElement;

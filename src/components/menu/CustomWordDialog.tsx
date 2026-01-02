@@ -6,8 +6,8 @@ import { customWordSchema } from "@/lib/game/customWordSchema";
 import { encodeCustomWord } from "@/lib/game/encoding";
 import { Button } from "@/ui/Button";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/ui/Dialog";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@/ui/Field";
 import { Input } from "@/ui/Input";
-import { Field, FieldError, FieldGroup, FieldLabel } from "./ui/Field";
 
 interface Props {
     trigger: React.ReactElement;

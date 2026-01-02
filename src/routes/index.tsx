@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { GameModeDialog } from "@/components/GameModeDialog";
+import { GameModeDialog } from "@/components/menu/GameModeDialog";
 import { Button } from "@/ui/Button";
 
 export const Route = createFileRoute("/")({
