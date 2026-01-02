@@ -20,4 +20,7 @@ export default defineConfig({
         }),
         tailwindcss(),
     ],
+    optimizeDeps: {
+        exclude: ["@electric-sql/pglite"],
+    },
 });

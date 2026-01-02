@@ -33,6 +33,7 @@
         "paths": {
             "@/ui/*": ["./src/components/ui/*"],
             "@/components/*": ["./src/components/*"],
+            "@/db/*": ["./src/lib/db/*"],
             "@/lib/*": ["./src/lib/*"],
             "@/*": ["./src/*"]
         }
