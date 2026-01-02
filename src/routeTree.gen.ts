@@ -9,58 +9,70 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WrapperRouteRouteImport } from './routes/_wrapper/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as HistoryIndexRouteImport } from './routes/history/index'
-import { Route as GameIndexRouteImport } from './routes/game/index'
+import { Route as WrapperHistoryRouteImport } from './routes/_wrapper/history'
+import { Route as WrapperGameRouteImport } from './routes/_wrapper/game'
 
+const WrapperRouteRoute = WrapperRouteRouteImport.update({
+  id: '/_wrapper',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const HistoryIndexRoute = HistoryIndexRouteImport.update({
-  id: '/history/',
-  path: '/history/',
-  getParentRoute: () => rootRouteImport,
+const WrapperHistoryRoute = WrapperHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => WrapperRouteRoute,
 } as any)
-const GameIndexRoute = GameIndexRouteImport.update({
-  id: '/game/',
-  path: '/game/',
-  getParentRoute: () => rootRouteImport,
+const WrapperGameRoute = WrapperGameRouteImport.update({
+  id: '/game',
+  path: '/game',
+  getParentRoute: () => WrapperRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/game': typeof GameIndexRoute
-  '/history': typeof HistoryIndexRoute
+  '/game': typeof WrapperGameRoute
+  '/history': typeof WrapperHistoryRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/game': typeof GameIndexRoute
-  '/history': typeof HistoryIndexRoute
+  '/game': typeof WrapperGameRoute
+  '/history': typeof WrapperHistoryRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/game/': typeof GameIndexRoute
-  '/history/': typeof HistoryIndexRoute
+  '/_wrapper': typeof WrapperRouteRouteWithChildren
+  '/_wrapper/game': typeof WrapperGameRoute
+  '/_wrapper/history': typeof WrapperHistoryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths: '/' | '/game' | '/history'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/game' | '/history'
-  id: '__root__' | '/' | '/game/' | '/history/'
+  id: '__root__' | '/' | '/_wrapper' | '/_wrapper/game' | '/_wrapper/history'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  GameIndexRoute: typeof GameIndexRoute
-  HistoryIndexRoute: typeof HistoryIndexRoute
+  WrapperRouteRoute: typeof WrapperRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_wrapper': {
+      id: '/_wrapper'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof WrapperRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -68,27 +80,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/history/': {
-      id: '/history/'
+    '/_wrapper/history': {
+      id: '/_wrapper/history'
       path: '/history'
       fullPath: '/history'
-      preLoaderRoute: typeof HistoryIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof WrapperHistoryRouteImport
+      parentRoute: typeof WrapperRouteRoute
     }
-    '/game/': {
-      id: '/game/'
+    '/_wrapper/game': {
+      id: '/_wrapper/game'
       path: '/game'
       fullPath: '/game'
-      preLoaderRoute: typeof GameIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof WrapperGameRouteImport
+      parentRoute: typeof WrapperRouteRoute
     }
   }
 }
 
+interface WrapperRouteRouteChildren {
+  WrapperGameRoute: typeof WrapperGameRoute
+  WrapperHistoryRoute: typeof WrapperHistoryRoute
+}
+
+const WrapperRouteRouteChildren: WrapperRouteRouteChildren = {
+  WrapperGameRoute: WrapperGameRoute,
+  WrapperHistoryRoute: WrapperHistoryRoute,
+}
+
+const WrapperRouteRouteWithChildren = WrapperRouteRoute._addFileChildren(
+  WrapperRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  GameIndexRoute: GameIndexRoute,
-  HistoryIndexRoute: HistoryIndexRoute,
+  WrapperRouteRoute: WrapperRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

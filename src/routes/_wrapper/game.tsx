@@ -8,7 +8,7 @@ import { customWordSearchQuerySchema } from "@/lib/game/customWordSchema";
 import { decodeCustomWord } from "@/lib/game/encoding";
 import { useGame } from "@/lib/game/useGame";
 
-export const Route = createFileRoute("/game/")({
+export const Route = createFileRoute("/_wrapper/game")({
     component: Game,
     validateSearch: customWordSearchQuerySchema,
 });
@@ -28,7 +28,7 @@ function Game() {
     });
 
     return (
-        <section className="px-2 pt-2 pb-8">
+        <>
             <BackNav>
                 <Button size="sm" onClick={handleNextWord} variant="secondary" disabled={!(isGameOver || isWin)}>
                     Next Word
@@ -49,6 +49,6 @@ function Game() {
                     disabled={isGameOver || isWin}
                 />
             </div>
-        </section>
+        </>
     );
 }

@@ -3,7 +3,7 @@ import { BackNav } from "@/components/BackNav";
 import { HistoryCard } from "@/components/HistoryCard";
 import { getGameHistory } from "@/lib/game/history";
 
-export const Route = createFileRoute("/history/")({
+export const Route = createFileRoute("/_wrapper/history")({
     component: History,
     loader: async () => {
         const history = await getGameHistory();
@@ -15,7 +15,7 @@ function History() {
     const history = Route.useLoaderData();
 
     return (
-        <section className="px-2 pt-2 pb-8">
+        <>
             <BackNav />
             <div className="max-w-3xl mx-auto">
                 <h1 className="text-3xl font-bold mb-6 text-center">Game History</h1>
@@ -29,6 +29,6 @@ function History() {
                     </div>
                 )}
             </div>
-        </section>
+        </>
     );
 }
