@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { BackNav } from "@/components/BackNav";
-import { HistoryCard } from "@/components/HistoryCard";
+import EmptyHistory from "@/components/history/EmptyHistory";
+import { HistoryCard } from "@/components/history/HistoryCard";
 import { getGameHistory } from "@/lib/game/history";
 
 export const Route = createFileRoute("/_wrapper/history")({
@@ -20,7 +21,7 @@ function History() {
             <div className="max-w-3xl mx-auto">
                 <h1 className="text-3xl font-bold mb-6 text-center font-mono">Game History</h1>
                 {history.length === 0 ? (
-                    <p className="text-center text-muted-foreground">No games played yet.</p>
+                    <EmptyHistory />
                 ) : (
                     <div className="flex flex-col gap-4">
                         {history.map((game) => (
