@@ -27,14 +27,17 @@ export const CustomWordDialog = ({ trigger }: Props) => {
         onSubmit: async ({ value }) => {
             const parsedValue = customWordSchema.parse(value);
 
-            const uint8Array = new TextEncoder().encode(parsedValue.word);
+            const payload = JSON.stringify({
+                word: parsedValue.word,
+                category: parsedValue.category || undefined,
+            });
+            const uint8Array = new TextEncoder().encode(payload);
             let binary = "";
             for (const byte of uint8Array) binary += String.fromCharCode(byte);
-            const encodedWord = btoa(binary);
+            const encodedData = btoa(binary);
 
             const url = new URL("/game", window.location.origin);
-            url.searchParams.set("word", encodedWord);
-            if (parsedValue.category) url.searchParams.set("category", parsedValue.category);
+            url.searchParams.set("word", encodedData);
 
             const isMobile = window.matchMedia("(pointer: coarse)").matches;
             if (isMobile && navigator.share) {

@@ -4,26 +4,36 @@ import { Field } from "@/components/hangman/Field/Field";
 import { Gallows } from "@/components/hangman/Gallows";
 import { Keyboard } from "@/components/hangman/Keyboard/Keyboard";
 import { Button } from "@/components/ui/Button";
-import { customWordsearchQuerySchema } from "@/lib/game/customWordSchema";
+import { customWordSearchQuerySchema } from "@/lib/game/customWordSchema";
 import { useGame } from "@/lib/game/useGame";
 
 export const Route = createFileRoute("/game/")({
     component: Game,
-    validateSearch: customWordsearchQuerySchema,
+    validateSearch: customWordSearchQuerySchema,
 });
 
 function Game() {
-    const { word: encodedWord, category: customCategory } = Route.useSearch();
+    const { word: encodedWord } = Route.useSearch();
     const navigate = Route.useNavigate();
 
     let customWord: string | undefined;
+    let customCategory: string | undefined;
     try {
-        const decoded = encodedWord ? atob(encodedWord) : undefined;
-        // biome-ignore lint/performance/useTopLevelRegex: doesn't run frequently
-        const hasLatinChars = decoded && /[a-z]/i.test(decoded);
-        customWord = hasLatinChars ? decoded : undefined;
+        if (encodedWord) {
+            const binary = atob(encodedWord);
+            const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+            const decoded = new TextDecoder().decode(bytes);
+            const parsed = JSON.parse(decoded) as { word?: string; category?: string };
+            // biome-ignore lint/performance/useTopLevelRegex: doesn't run frequently
+            const hasLatinChars = parsed.word && /[a-z]/i.test(parsed.word);
+            if (hasLatinChars) {
+                customWord = parsed.word;
+                customCategory = parsed.category;
+            }
+        }
     } catch {
         customWord = undefined;
+        customCategory = undefined;
     }
 
     if (encodedWord && !customWord) {
