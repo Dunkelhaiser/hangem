@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { isLatinChar } from "./customWordSchema";
-import { generateWord, type WordData } from "./generateWord";
+import { type CustomWordPayload, isLatinChar } from "./customWordSchema";
+import { generateWord } from "./generateWord";
 
 const MAX_ATTEMPTS = 6;
 
 interface Options {
-    initialWord?: WordData;
+    initialWord?: CustomWordPayload;
 }
 
-export const useGame = (options: Options = {}) => {
-    const [{ word, category }, setWordData] = useState(() => options.initialWord ?? generateWord());
+export const useGame = ({ initialWord }: Options = {}) => {
+    const [{ word, category }, setWordData] = useState(() =>
+        initialWord ? { ...initialWord, category: initialWord.category ?? "Custom" } : generateWord()
+    );
     const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
 
     const wrongGuesses = guessedLetters.filter((letter) => !word.toLowerCase().includes(letter.toLowerCase()));

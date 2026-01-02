@@ -21,11 +21,6 @@ const categories = [
     { name: "Adjective", generator: () => faker.word.adjective() },
 ] as const;
 
-export interface WordData {
-    word: string;
-    category: string;
-}
-
 export const generateWord = () => {
     const category = faker.helpers.arrayElement(categories);
     return { word: category.generator(), category: category.name };

@@ -17,17 +17,14 @@ function Game() {
     const { word: encodedWord } = Route.useSearch();
     const navigate = Route.useNavigate();
 
-    const decoded = encodedWord ? decodeCustomWord(encodedWord) : null;
-    const customWord = decoded?.word;
-    const customCategory = decoded?.category;
+    const initialWord = encodedWord ? decodeCustomWord(encodedWord) : null;
 
-    if (encodedWord && !customWord) {
+    if (encodedWord && !initialWord?.word) {
         navigate({ search: undefined });
     }
 
-    const initialWord = customWord ? { word: customWord, category: customCategory ?? "Custom" } : undefined;
     const { word, category, guessedLetters, wrongGuesses, isGameOver, isWin, handleNextWord, handleGuess } = useGame({
-        initialWord,
+        initialWord: initialWord || undefined,
     });
 
     return (
