@@ -1,7 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft } from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
+import { BackNav } from "@/components/BackNav";
 import { HistoryCard } from "@/components/HistoryCard";
-import { Button } from "@/components/ui/Button";
 import { getGameHistory } from "@/lib/game/history";
 
 export const Route = createFileRoute("/history/")({
@@ -17,12 +16,7 @@ function History() {
 
     return (
         <section className="px-2 pt-2 pb-8">
-            <div className="flex items-center mb-6 justify-between max-w-3xl mx-auto">
-                <Button variant="link" size="sm" nativeButton={false} render={<Link to="/" />}>
-                    <ArrowLeft className="size-4" />
-                    Back
-                </Button>
-            </div>
+            <BackNav />
             <div className="max-w-3xl mx-auto">
                 <h1 className="text-3xl font-bold mb-6 text-center">Game History</h1>
                 {history.length === 0 ? (

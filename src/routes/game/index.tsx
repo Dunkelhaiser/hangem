@@ -1,5 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft } from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
+import { BackNav } from "@/components/BackNav";
 import { Field } from "@/components/hangman/Field/Field";
 import { Gallows } from "@/components/hangman/Gallows";
 import { Keyboard } from "@/components/hangman/Keyboard/Keyboard";
@@ -29,15 +29,11 @@ function Game() {
 
     return (
         <section className="px-2 pt-2 pb-8">
-            <div className="flex items-center mb-6 justify-between max-w-3xl mx-auto">
-                <Button variant="link" size="sm" nativeButton={false} render={<Link to="/" />}>
-                    <ArrowLeft className="size-4" />
-                    Back
-                </Button>
+            <BackNav>
                 <Button size="sm" onClick={handleNextWord} variant="secondary" disabled={!(isGameOver || isWin)}>
                     Next Word
                 </Button>
-            </div>
+            </BackNav>
             <div className="flex flex-col gap-8 items-center">
                 <Gallows stage={wrongGuesses.length} />
                 <div className="flex flex-col items-center gap-4">
