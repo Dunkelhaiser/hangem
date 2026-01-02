@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { GameModeDialog } from "@/components/GameModeDialog";
 import { Button } from "@/ui/Button";
 
@@ -12,7 +12,7 @@ function Index() {
             <h1 className="text-6xl font-bold tracking-tighter text-foreground">Hangem</h1>
             <nav className="flex flex-col w-full max-w-xs gap-4">
                 <GameModeDialog trigger={<Button size="lg">Play</Button>} />
-                <Button variant="outline" size="lg">
+                <Button variant="outline" size="lg" nativeButton={false} render={<Link to="/history" />}>
                     History
                 </Button>
                 <Button variant="outline" size="lg">

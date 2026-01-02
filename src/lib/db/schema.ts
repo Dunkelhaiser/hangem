@@ -10,3 +10,4 @@ export const gameHistory = pgTable("game_history", {
 });
 
 export type GameHistoryInsert = Omit<typeof gameHistory.$inferInsert, "id" | "createdAt">;
+export type GameHistory = typeof gameHistory.$inferSelect;
