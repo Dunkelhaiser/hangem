@@ -1,7 +1,4 @@
-interface CustomWordPayload {
-    word: string;
-    category?: string;
-}
+import { type CustomWordPayload, customWordPayloadSchema } from "./customWordSchema";
 
 export function encodeCustomWord(payload: CustomWordPayload) {
     const json = JSON.stringify({
@@ -19,15 +16,9 @@ export function decodeCustomWord(encoded: string) {
         const binary = atob(encoded);
         const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
         const decoded = new TextDecoder().decode(bytes);
-        const parsed = JSON.parse(decoded) as Partial<CustomWordPayload>;
-        // biome-ignore lint/performance/useTopLevelRegex: doesn't run frequently
-        const hasLatinChars = parsed.word && /[a-z]/i.test(parsed.word);
-        if (hasLatinChars && parsed.word) {
-            return {
-                word: parsed.word,
-                category: parsed.category,
-            };
-        }
+        const parsed = JSON.parse(decoded) as unknown;
+        const result = customWordPayloadSchema.safeParse(parsed);
+        if (result.success) return result.data;
         return null;
     } catch {
         return null;

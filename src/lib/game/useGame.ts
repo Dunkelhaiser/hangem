@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { isLatinChar } from "./customWordSchema";
 import { generateWord, type WordData } from "./generateWord";
 
 const MAX_ATTEMPTS = 6;
@@ -16,8 +17,7 @@ export const useGame = (options: Options = {}) => {
     const isWin = word
         .toLowerCase()
         .split("")
-        // biome-ignore lint/performance/useTopLevelRegex: doesn't run frequently
-        .filter((char) => /[a-z]/i.test(char))
+        .filter(isLatinChar)
         .every((letter) => guessedLetters.includes(letter.toLowerCase()));
 
     const handleNextWord = () => {
