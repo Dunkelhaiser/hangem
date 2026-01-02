@@ -1,0 +1,10 @@
+[
+    {
+        "sql": [
+            "CREATE TABLE IF NOT EXISTS \"game_history\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"word\" text NOT NULL,\n\t\"category\" text NOT NULL,\n\t\"guessed_letters\" text[] NOT NULL,\n\t\"won\" boolean NOT NULL,\n\t\"created_at\" timestamp DEFAULT now() NOT NULL\n);\n"
+        ],
+        "bps": true,
+        "folderMillis": 1767365389036,
+        "hash": "8aa36f110e24b9ec7cfb2ee14964b82d8b40238575275d4266b9aa7a1998c163"
+    }
+]
