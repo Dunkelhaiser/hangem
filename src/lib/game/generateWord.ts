@@ -34,6 +34,5 @@ export const generateWord = (playedCombinations?: Set<string>) => {
         }
     }
 
-    const category = faker.helpers.arrayElement(categories);
-    return { word: category.generator(), category: category.name };
+    return null;
 };

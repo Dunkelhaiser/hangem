@@ -12,7 +12,7 @@ interface Options {
 
 export const useGame = ({ initialWord }: Options = {}) => {
     const navigate = useNavigate();
-    const [{ word, category }, setWordData] = useState(() =>
+    const [wordData, setWordData] = useState<{ word: string; category: string } | null>(() =>
         initialWord ? { ...initialWord, category: initialWord.category ?? "Custom" } : generateWord()
     );
     const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
@@ -25,16 +25,22 @@ export const useGame = ({ initialWord }: Options = {}) => {
         });
     }, []);
 
+    const word = wordData?.word ?? "";
+    const category = wordData?.category ?? "";
+    const isExhausted = wordData === null;
+
     const wrongGuesses = guessedLetters.filter((letter) => !word.toLowerCase().includes(letter.toLowerCase()));
     const isGameOver = wrongGuesses.length >= MAX_ATTEMPTS;
-    const isWin = word
-        .toLowerCase()
-        .split("")
-        .filter(isLatinChar)
-        .every((letter) => guessedLetters.includes(letter.toLowerCase()));
+    const isWin =
+        word.length > 0 &&
+        word
+            .toLowerCase()
+            .split("")
+            .filter(isLatinChar)
+            .every((letter) => guessedLetters.includes(letter.toLowerCase()));
 
     useEffect(() => {
-        if ((isGameOver || isWin) && !savedRef.current) {
+        if ((isGameOver || isWin) && !savedRef.current && wordData) {
             savedRef.current = true;
             saveGameToHistory({
                 word,
@@ -45,7 +51,7 @@ export const useGame = ({ initialWord }: Options = {}) => {
             const key = `${word.toLowerCase()}:${category.toLowerCase()}`;
             playedCombinationsRef.current?.add(key);
         }
-    }, [isGameOver, isWin, word, category, guessedLetters]);
+    }, [isGameOver, isWin, word, category, guessedLetters, wordData]);
 
     const handleNextWord = () => {
         savedRef.current = false;
@@ -71,6 +77,7 @@ export const useGame = ({ initialWord }: Options = {}) => {
         wrongGuesses,
         isGameOver,
         isWin,
+        isExhausted,
         handleNextWord,
         handleGuess,
     };

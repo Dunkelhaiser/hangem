@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { BackNav } from "@/components/BackNav";
+import Congratulations from "@/components/hangman/Congratulations";
 import { Field } from "@/components/hangman/Field/Field";
 import { Gallows } from "@/components/hangman/Gallows";
 import { Keyboard } from "@/components/hangman/Keyboard/Keyboard";
@@ -35,9 +36,28 @@ function Game() {
         navigate({ search: undefined });
     }
 
-    const { word, category, guessedLetters, wrongGuesses, isGameOver, isWin, handleNextWord, handleGuess } = useGame({
+    const {
+        word,
+        category,
+        guessedLetters,
+        wrongGuesses,
+        isGameOver,
+        isWin,
+        isExhausted,
+        handleNextWord,
+        handleGuess,
+    } = useGame({
         initialWord: initialWord || undefined,
     });
+
+    if (isExhausted && initialWord === null) {
+        return (
+            <>
+                <BackNav />
+                <Congratulations />
+            </>
+        );
+    }
 
     const isAlreadyCompleted = existingGame !== null;
     const displayWord = existingGame?.word ?? word;
