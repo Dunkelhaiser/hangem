@@ -8,7 +8,7 @@ import { customWordSearchQuerySchema } from "@/lib/game/customWordSchema";
 import { decodeCustomWord } from "@/lib/game/encoding";
 import { useGame } from "@/lib/game/useGame";
 
-export const Route = createFileRoute("/_wrapper/game")({
+export const Route = createFileRoute("/_wrapper/play")({
     component: Game,
     validateSearch: customWordSearchQuerySchema,
 });

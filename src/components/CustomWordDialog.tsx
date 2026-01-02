@@ -32,7 +32,7 @@ export const CustomWordDialog = ({ trigger }: Props) => {
                 category: parsedValue.category || undefined,
             });
 
-            const url = new URL("/game", window.location.origin);
+            const url = new URL("/play", window.location.origin);
             url.searchParams.set("word", encodedData);
 
             const isMobile = window.matchMedia("(pointer: coarse)").matches;

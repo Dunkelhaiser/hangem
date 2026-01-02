@@ -11,8 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WrapperRouteRouteImport } from './routes/_wrapper/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as WrapperPlayRouteImport } from './routes/_wrapper/play'
 import { Route as WrapperHistoryRouteImport } from './routes/_wrapper/history'
-import { Route as WrapperGameRouteImport } from './routes/_wrapper/game'
 
 const WrapperRouteRoute = WrapperRouteRouteImport.update({
   id: '/_wrapper',
@@ -23,40 +23,40 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WrapperPlayRoute = WrapperPlayRouteImport.update({
+  id: '/play',
+  path: '/play',
+  getParentRoute: () => WrapperRouteRoute,
+} as any)
 const WrapperHistoryRoute = WrapperHistoryRouteImport.update({
   id: '/history',
   path: '/history',
   getParentRoute: () => WrapperRouteRoute,
 } as any)
-const WrapperGameRoute = WrapperGameRouteImport.update({
-  id: '/game',
-  path: '/game',
-  getParentRoute: () => WrapperRouteRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/game': typeof WrapperGameRoute
   '/history': typeof WrapperHistoryRoute
+  '/play': typeof WrapperPlayRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/game': typeof WrapperGameRoute
   '/history': typeof WrapperHistoryRoute
+  '/play': typeof WrapperPlayRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_wrapper': typeof WrapperRouteRouteWithChildren
-  '/_wrapper/game': typeof WrapperGameRoute
   '/_wrapper/history': typeof WrapperHistoryRoute
+  '/_wrapper/play': typeof WrapperPlayRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/game' | '/history'
+  fullPaths: '/' | '/history' | '/play'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/game' | '/history'
-  id: '__root__' | '/' | '/_wrapper' | '/_wrapper/game' | '/_wrapper/history'
+  to: '/' | '/history' | '/play'
+  id: '__root__' | '/' | '/_wrapper' | '/_wrapper/history' | '/_wrapper/play'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -80,6 +80,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_wrapper/play': {
+      id: '/_wrapper/play'
+      path: '/play'
+      fullPath: '/play'
+      preLoaderRoute: typeof WrapperPlayRouteImport
+      parentRoute: typeof WrapperRouteRoute
+    }
     '/_wrapper/history': {
       id: '/_wrapper/history'
       path: '/history'
@@ -87,24 +94,17 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WrapperHistoryRouteImport
       parentRoute: typeof WrapperRouteRoute
     }
-    '/_wrapper/game': {
-      id: '/_wrapper/game'
-      path: '/game'
-      fullPath: '/game'
-      preLoaderRoute: typeof WrapperGameRouteImport
-      parentRoute: typeof WrapperRouteRoute
-    }
   }
 }
 
 interface WrapperRouteRouteChildren {
-  WrapperGameRoute: typeof WrapperGameRoute
   WrapperHistoryRoute: typeof WrapperHistoryRoute
+  WrapperPlayRoute: typeof WrapperPlayRoute
 }
 
 const WrapperRouteRouteChildren: WrapperRouteRouteChildren = {
-  WrapperGameRoute: WrapperGameRoute,
   WrapperHistoryRoute: WrapperHistoryRoute,
+  WrapperPlayRoute: WrapperPlayRoute,
 }
 
 const WrapperRouteRouteWithChildren = WrapperRouteRoute._addFileChildren(

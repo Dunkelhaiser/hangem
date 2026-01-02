@@ -16,7 +16,7 @@ export const GameModeDialog = ({ trigger }: Props) => {
                 <DialogHeader>
                     <DialogTitle>Choose Game Mode</DialogTitle>
                 </DialogHeader>
-                <Button nativeButton={false} render={<Link to="/game" />}>
+                <Button nativeButton={false} render={<Link to="/play" />}>
                     Classic Mode
                 </Button>
                 <Button variant="secondary">Challenge Mode</Button>
