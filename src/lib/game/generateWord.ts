@@ -21,7 +21,19 @@ const categories = [
     { name: "Adjective", generator: () => faker.word.adjective() },
 ] as const;
 
-export const generateWord = () => {
+const MAX_ATTEMPTS = 100;
+
+export const generateWord = (playedCombinations?: Set<string>) => {
+    for (let i = 0; i < MAX_ATTEMPTS; i++) {
+        const category = faker.helpers.arrayElement(categories);
+        const word = category.generator();
+        const key = `${word.toLowerCase()}:${category.name.toLowerCase()}`;
+
+        if (!playedCombinations?.has(key)) {
+            return { word, category: category.name };
+        }
+    }
+
     const category = faker.helpers.arrayElement(categories);
     return { word: category.generator(), category: category.name };
 };

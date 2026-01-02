@@ -11,6 +11,11 @@ export const getGameHistory = async () => {
     return history;
 };
 
+export const getPlayedCombinations = async () => {
+    const history = await db.select({ word: gameHistory.word, category: gameHistory.category }).from(gameHistory);
+    return new Set(history.map((h) => `${h.word.toLowerCase()}:${h.category.toLowerCase()}`));
+};
+
 export const findExistingGame = async (word: string, category = "Custom") => {
     const [existing] = await db
         .select()

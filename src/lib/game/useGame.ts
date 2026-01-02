@@ -2,7 +2,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { type CustomWordPayload, isLatinChar } from "./customWordSchema";
 import { generateWord } from "./generateWord";
-import { saveGameToHistory } from "./history";
+import { getPlayedCombinations, saveGameToHistory } from "./history";
 
 const MAX_ATTEMPTS = 6;
 
@@ -17,6 +17,13 @@ export const useGame = ({ initialWord }: Options = {}) => {
     );
     const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
     const savedRef = useRef(false);
+    const playedCombinationsRef = useRef<Set<string> | null>(null);
+
+    useEffect(() => {
+        getPlayedCombinations().then((combinations) => {
+            playedCombinationsRef.current = combinations;
+        });
+    }, []);
 
     const wrongGuesses = guessedLetters.filter((letter) => !word.toLowerCase().includes(letter.toLowerCase()));
     const isGameOver = wrongGuesses.length >= MAX_ATTEMPTS;
@@ -35,12 +42,14 @@ export const useGame = ({ initialWord }: Options = {}) => {
                 guessedLetters,
                 won: isWin,
             });
+            const key = `${word.toLowerCase()}:${category.toLowerCase()}`;
+            playedCombinationsRef.current?.add(key);
         }
     }, [isGameOver, isWin, word, category, guessedLetters]);
 
     const handleNextWord = () => {
         savedRef.current = false;
-        setWordData(generateWord());
+        setWordData(generateWord(playedCombinationsRef.current ?? undefined));
         setGuessedLetters([]);
         navigate({ search: undefined });
     };
