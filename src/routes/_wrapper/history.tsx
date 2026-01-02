@@ -18,7 +18,7 @@ function History() {
         <>
             <BackNav />
             <div className="max-w-3xl mx-auto">
-                <h1 className="text-3xl font-bold mb-6 text-center">Game History</h1>
+                <h1 className="text-3xl font-bold mb-6 text-center font-mono">Game History</h1>
                 {history.length === 0 ? (
                     <p className="text-center text-muted-foreground">No games played yet.</p>
                 ) : (
