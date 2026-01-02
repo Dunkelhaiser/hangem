@@ -6,15 +6,27 @@ import { Keyboard } from "@/components/hangman/Keyboard/Keyboard";
 import { Button } from "@/components/ui/Button";
 import { customWordSearchQuerySchema } from "@/lib/game/customWordSchema";
 import { decodeCustomWord } from "@/lib/game/encoding";
+import { findExistingGame } from "@/lib/game/history";
 import { useGame } from "@/lib/game/useGame";
 
 export const Route = createFileRoute("/_wrapper/play")({
     component: Game,
     validateSearch: customWordSearchQuerySchema,
+    loaderDeps: ({ search: { word } }) => ({ word }),
+    loader: async ({ deps: { word: encodedWord } }) => {
+        if (!encodedWord) return null;
+
+        const decoded = decodeCustomWord(encodedWord);
+        if (!decoded?.word) return null;
+
+        const existingGame = await findExistingGame(decoded.word, decoded.category);
+        return existingGame;
+    },
 });
 
 function Game() {
     const { word: encodedWord } = Route.useSearch();
+    const existingGame = Route.useLoaderData();
     const navigate = Route.useNavigate();
 
     const initialWord = encodedWord ? decodeCustomWord(encodedWord) : null;
@@ -27,26 +39,36 @@ function Game() {
         initialWord: initialWord || undefined,
     });
 
+    const isAlreadyCompleted = existingGame !== null;
+    const displayWord = existingGame?.word ?? word;
+    const displayCategory = existingGame?.category ?? category;
+    const displayGuessedLetters = existingGame?.guessedLetters ?? guessedLetters;
+    const displayWrongGuesses = existingGame
+        ? existingGame.guessedLetters.filter((letter) => !existingGame.word.toLowerCase().includes(letter))
+        : wrongGuesses;
+    const displayIsGameOver = isAlreadyCompleted || isGameOver;
+    const isDisabled = isAlreadyCompleted || isGameOver || isWin;
+
     return (
         <>
             <BackNav>
-                <Button size="sm" onClick={handleNextWord} variant="secondary" disabled={!(isGameOver || isWin)}>
+                <Button size="sm" onClick={handleNextWord} variant="secondary" disabled={!isDisabled}>
                     Next Word
                 </Button>
             </BackNav>
             <div className="flex flex-col gap-8 items-center">
-                <Gallows stage={wrongGuesses.length} />
+                <Gallows stage={displayWrongGuesses.length} />
                 <div className="flex flex-col items-center gap-4">
                     <p className="text-muted-foreground text-sm">
-                        Category: <span className="font-semibold text-foreground capitalize">{category}</span>
+                        Category: <span className="font-semibold text-foreground capitalize">{displayCategory}</span>
                     </p>
-                    <Field word={word} guessedLetters={guessedLetters} isGameOver={isGameOver} />
+                    <Field word={displayWord} guessedLetters={displayGuessedLetters} isGameOver={displayIsGameOver} />
                 </div>
                 <Keyboard
-                    word={word}
-                    guessedLetters={guessedLetters}
-                    onGuess={handleGuess}
-                    disabled={isGameOver || isWin}
+                    word={displayWord}
+                    guessedLetters={displayGuessedLetters}
+                    onGuess={isAlreadyCompleted ? () => undefined : handleGuess}
+                    disabled={isDisabled}
                 />
             </div>
         </>
