@@ -1,3 +1,4 @@
+import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { type CustomWordPayload, isLatinChar } from "./customWordSchema";
 import { generateWord } from "./generateWord";
@@ -10,6 +11,7 @@ interface Options {
 }
 
 export const useGame = ({ initialWord }: Options = {}) => {
+    const navigate = useNavigate();
     const [{ word, category }, setWordData] = useState(() =>
         initialWord ? { ...initialWord, category: initialWord.category ?? "Custom" } : generateWord()
     );
@@ -40,6 +42,7 @@ export const useGame = ({ initialWord }: Options = {}) => {
         savedRef.current = false;
         setWordData(generateWord());
         setGuessedLetters([]);
+        navigate({ search: undefined });
     };
 
     const handleGuess = (letter: string) => {
