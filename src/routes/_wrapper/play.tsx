@@ -7,7 +7,7 @@ import { Keyboard } from "@/components/hangman/Keyboard/Keyboard";
 import { Button } from "@/components/ui/Button";
 import { customWordSearchQuerySchema } from "@/lib/game/customWordSchema";
 import { decodeCustomWord } from "@/lib/game/encoding";
-import { findExistingGame, getCurrentGame } from "@/lib/game/history";
+import { findExistingGame, getCurrentGame, getPlayedCombinations } from "@/lib/game/history";
 import { useGame } from "@/lib/game/useGame";
 
 export const Route = createFileRoute("/_wrapper/play")({
@@ -15,21 +15,21 @@ export const Route = createFileRoute("/_wrapper/play")({
     validateSearch: customWordSearchQuerySchema,
     loaderDeps: ({ search: { word } }) => ({ word }),
     loader: async ({ deps: { word: encodedWord } }) => {
-        const currentGame = await getCurrentGame();
+        const [currentGame, playedCombinations] = await Promise.all([getCurrentGame(), getPlayedCombinations()]);
 
-        if (!encodedWord) return { existingGame: null, currentGame };
+        if (!encodedWord) return { existingGame: null, currentGame, playedCombinations };
 
         const decoded = decodeCustomWord(encodedWord);
-        if (!decoded?.word) return { existingGame: null, currentGame };
+        if (!decoded?.word) return { existingGame: null, currentGame, playedCombinations };
 
         const existingGame = await findExistingGame(decoded.word, decoded.category);
-        return { existingGame, currentGame };
+        return { existingGame, currentGame, playedCombinations };
     },
 });
 
 function Game() {
     const { word: encodedWord } = Route.useSearch();
-    const { existingGame, currentGame } = Route.useLoaderData();
+    const { existingGame, currentGame, playedCombinations } = Route.useLoaderData();
     const navigate = Route.useNavigate();
 
     const initialWord = encodedWord ? decodeCustomWord(encodedWord) : null;
@@ -51,6 +51,7 @@ function Game() {
     } = useGame({
         initialWord: initialWord || undefined,
         savedGame: currentGame,
+        playedCombinations,
     });
 
     if (isExhausted && initialWord === null) {

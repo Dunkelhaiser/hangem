@@ -3,13 +3,14 @@ import { useEffect, useRef, useState } from "react";
 import type { CurrentGame } from "@/db/schema";
 import { type CustomWordPayload, isLatinChar } from "./customWordSchema";
 import { generateWord } from "./generateWord";
-import { clearCurrentGame, getCurrentGame, getPlayedCombinations, saveCurrentGame, saveGameToHistory } from "./history";
+import { clearCurrentGame, getCurrentGame, saveCurrentGame, saveGameToHistory } from "./history";
 
 const MAX_ATTEMPTS = 6;
 
 interface Options {
     initialWord?: CustomWordPayload;
     savedGame?: CurrentGame | null;
+    playedCombinations: Set<string>;
 }
 
 const isSavedGameMatch = (savedGame: CurrentGame | null | undefined, word: string, category: string) => {
@@ -20,7 +21,7 @@ const isSavedGameMatch = (savedGame: CurrentGame | null | undefined, word: strin
     );
 };
 
-export const useGame = ({ initialWord, savedGame }: Options = {}) => {
+export const useGame = ({ initialWord, savedGame, playedCombinations }: Options) => {
     const navigate = useNavigate();
     const [wordData, setWordData] = useState<{ word: string; category: string } | null>(() => {
         if (initialWord) {
@@ -29,7 +30,7 @@ export const useGame = ({ initialWord, savedGame }: Options = {}) => {
         if (savedGame) {
             return { word: savedGame.word, category: savedGame.category };
         }
-        return generateWord();
+        return generateWord(playedCombinations);
     });
     const [guessedLetters, setGuessedLetters] = useState<string[]>(() => {
         if (initialWord) {
@@ -42,14 +43,8 @@ export const useGame = ({ initialWord, savedGame }: Options = {}) => {
         return savedGame?.guessedLetters ?? [];
     });
     const savedRef = useRef(false);
-    const playedCombinationsRef = useRef<Set<string> | null>(null);
+    const playedCombinationsRef = useRef(playedCombinations);
     const isCustomWord = initialWord !== undefined;
-
-    useEffect(() => {
-        getPlayedCombinations().then((combinations) => {
-            playedCombinationsRef.current = combinations;
-        });
-    }, []);
 
     const word = wordData?.word ?? "";
     const category = wordData?.category ?? "";
@@ -95,7 +90,7 @@ export const useGame = ({ initialWord, savedGame }: Options = {}) => {
             }
         }
 
-        const newWord = generateWord(playedCombinationsRef.current ?? undefined);
+        const newWord = generateWord(playedCombinationsRef.current);
         setWordData(newWord);
         setGuessedLetters([]);
         if (newWord) {
