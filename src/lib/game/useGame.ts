@@ -12,6 +12,14 @@ interface Options {
     savedGame?: CurrentGame | null;
 }
 
+const isSavedGameMatch = (savedGame: CurrentGame | null | undefined, word: string, category: string) => {
+    if (!savedGame) return false;
+    return (
+        savedGame.word.toLowerCase() === word.toLowerCase() &&
+        savedGame.category.toLowerCase() === category.toLowerCase()
+    );
+};
+
 export const useGame = ({ initialWord, savedGame }: Options = {}) => {
     const navigate = useNavigate();
     const [wordData, setWordData] = useState<{ word: string; category: string } | null>(() => {
@@ -23,7 +31,16 @@ export const useGame = ({ initialWord, savedGame }: Options = {}) => {
         }
         return generateWord();
     });
-    const [guessedLetters, setGuessedLetters] = useState<string[]>(() => savedGame?.guessedLetters ?? []);
+    const [guessedLetters, setGuessedLetters] = useState<string[]>(() => {
+        if (initialWord) {
+            const category = initialWord.category ?? "Custom";
+            if (isSavedGameMatch(savedGame, initialWord.word, category)) {
+                return savedGame?.guessedLetters ?? [];
+            }
+            return [];
+        }
+        return savedGame?.guessedLetters ?? [];
+    });
     const savedRef = useRef(false);
     const playedCombinationsRef = useRef<Set<string> | null>(null);
     const isCustomWord = initialWord !== undefined;
@@ -99,7 +116,7 @@ export const useGame = ({ initialWord, savedGame }: Options = {}) => {
         const newGuessedLetters = [...guessedLetters, lowerLetter];
         setGuessedLetters(newGuessedLetters);
 
-        if (!isCustomWord && wordData) {
+        if (wordData) {
             saveCurrentGame(word, category, newGuessedLetters);
         }
     };

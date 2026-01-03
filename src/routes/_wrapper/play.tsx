@@ -50,7 +50,7 @@ function Game() {
         handleGuess,
     } = useGame({
         initialWord: initialWord || undefined,
-        savedGame: initialWord ? undefined : currentGame,
+        savedGame: currentGame,
     });
 
     if (isExhausted && initialWord === null) {
