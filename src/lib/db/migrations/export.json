@@ -6,5 +6,13 @@
         "bps": true,
         "folderMillis": 1767365389036,
         "hash": "8aa36f110e24b9ec7cfb2ee14964b82d8b40238575275d4266b9aa7a1998c163"
+    },
+    {
+        "sql": [
+            "CREATE TABLE IF NOT EXISTS \"current_game\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"word\" text NOT NULL,\n\t\"category\" text NOT NULL,\n\t\"guessed_letters\" text[] NOT NULL,\n\t\"created_at\" timestamp DEFAULT now() NOT NULL,\n\t\"updated_at\" timestamp DEFAULT now() NOT NULL\n);\n"
+        ],
+        "bps": true,
+        "folderMillis": 1767451781358,
+        "hash": "bf2cb0e971089b5689471d021d5bbf3cc17c37e7a207aa2d960d4ae471ce416c"
     }
 ]

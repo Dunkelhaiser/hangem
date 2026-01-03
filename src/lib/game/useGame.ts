@@ -1,23 +1,32 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import type { CurrentGame } from "@/db/schema";
 import { type CustomWordPayload, isLatinChar } from "./customWordSchema";
 import { generateWord } from "./generateWord";
-import { getPlayedCombinations, saveGameToHistory } from "./history";
+import { clearCurrentGame, getCurrentGame, getPlayedCombinations, saveCurrentGame, saveGameToHistory } from "./history";
 
 const MAX_ATTEMPTS = 6;
 
 interface Options {
     initialWord?: CustomWordPayload;
+    savedGame?: CurrentGame | null;
 }
 
-export const useGame = ({ initialWord }: Options = {}) => {
+export const useGame = ({ initialWord, savedGame }: Options = {}) => {
     const navigate = useNavigate();
-    const [wordData, setWordData] = useState<{ word: string; category: string } | null>(() =>
-        initialWord ? { ...initialWord, category: initialWord.category ?? "Custom" } : generateWord()
-    );
-    const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
+    const [wordData, setWordData] = useState<{ word: string; category: string } | null>(() => {
+        if (initialWord) {
+            return { ...initialWord, category: initialWord.category ?? "Custom" };
+        }
+        if (savedGame) {
+            return { word: savedGame.word, category: savedGame.category };
+        }
+        return generateWord();
+    });
+    const [guessedLetters, setGuessedLetters] = useState<string[]>(() => savedGame?.guessedLetters ?? []);
     const savedRef = useRef(false);
     const playedCombinationsRef = useRef<Set<string> | null>(null);
+    const isCustomWord = initialWord !== undefined;
 
     useEffect(() => {
         getPlayedCombinations().then((combinations) => {
@@ -50,13 +59,33 @@ export const useGame = ({ initialWord }: Options = {}) => {
             });
             const key = `${word.toLowerCase()}:${category.toLowerCase()}`;
             playedCombinationsRef.current?.add(key);
+            if (!isCustomWord) {
+                clearCurrentGame();
+            }
         }
-    }, [isGameOver, isWin, word, category, guessedLetters, wordData]);
+    }, [isGameOver, isWin, word, category, guessedLetters, wordData, isCustomWord]);
 
-    const handleNextWord = () => {
+    const handleNextWord = async () => {
         savedRef.current = false;
-        setWordData(generateWord(playedCombinationsRef.current ?? undefined));
+
+        if (isCustomWord) {
+            const existingGame = await getCurrentGame();
+            if (existingGame) {
+                setWordData({ word: existingGame.word, category: existingGame.category });
+                setGuessedLetters(existingGame.guessedLetters);
+                navigate({ search: undefined });
+                return;
+            }
+        }
+
+        const newWord = generateWord(playedCombinationsRef.current ?? undefined);
+        setWordData(newWord);
         setGuessedLetters([]);
+        if (newWord) {
+            saveCurrentGame(newWord.word, newWord.category, []);
+        } else {
+            clearCurrentGame();
+        }
         navigate({ search: undefined });
     };
 
@@ -67,7 +96,12 @@ export const useGame = ({ initialWord }: Options = {}) => {
 
         if (guessedLetters.includes(lowerLetter)) return;
 
-        setGuessedLetters((prev) => [...prev, lowerLetter]);
+        const newGuessedLetters = [...guessedLetters, lowerLetter];
+        setGuessedLetters(newGuessedLetters);
+
+        if (!isCustomWord && wordData) {
+            saveCurrentGame(word, category, newGuessedLetters);
+        }
     };
 
     return {

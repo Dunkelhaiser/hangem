@@ -8,6 +8,13 @@
             "when": 1767365389036,
             "tag": "0000_fine_hitman",
             "breakpoints": true
+        },
+        {
+            "idx": 1,
+            "version": "7",
+            "when": 1767451781358,
+            "tag": "0001_silent_sharon_ventura",
+            "breakpoints": true
         }
     ]
 }

@@ -7,7 +7,7 @@ import { Keyboard } from "@/components/hangman/Keyboard/Keyboard";
 import { Button } from "@/components/ui/Button";
 import { customWordSearchQuerySchema } from "@/lib/game/customWordSchema";
 import { decodeCustomWord } from "@/lib/game/encoding";
-import { findExistingGame } from "@/lib/game/history";
+import { findExistingGame, getCurrentGame } from "@/lib/game/history";
 import { useGame } from "@/lib/game/useGame";
 
 export const Route = createFileRoute("/_wrapper/play")({
@@ -15,19 +15,21 @@ export const Route = createFileRoute("/_wrapper/play")({
     validateSearch: customWordSearchQuerySchema,
     loaderDeps: ({ search: { word } }) => ({ word }),
     loader: async ({ deps: { word: encodedWord } }) => {
-        if (!encodedWord) return null;
+        const currentGame = await getCurrentGame();
+
+        if (!encodedWord) return { existingGame: null, currentGame };
 
         const decoded = decodeCustomWord(encodedWord);
-        if (!decoded?.word) return null;
+        if (!decoded?.word) return { existingGame: null, currentGame };
 
         const existingGame = await findExistingGame(decoded.word, decoded.category);
-        return existingGame;
+        return { existingGame, currentGame };
     },
 });
 
 function Game() {
     const { word: encodedWord } = Route.useSearch();
-    const existingGame = Route.useLoaderData();
+    const { existingGame, currentGame } = Route.useLoaderData();
     const navigate = Route.useNavigate();
 
     const initialWord = encodedWord ? decodeCustomWord(encodedWord) : null;
@@ -48,6 +50,7 @@ function Game() {
         handleGuess,
     } = useGame({
         initialWord: initialWord || undefined,
+        savedGame: initialWord ? undefined : currentGame,
     });
 
     if (isExhausted && initialWord === null) {
