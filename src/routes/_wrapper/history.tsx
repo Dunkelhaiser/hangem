@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import { useEffect, useRef } from "react";
 import { BackNav } from "@/components/BackNav";
 import EmptyHistory from "@/components/history/EmptyHistory";
@@ -7,6 +8,8 @@ import { gameHistoryQueryOptions, useGameHistory } from "@/lib/game/historyHooks
 import { ScrollArea } from "@/ui/ScrollArea";
 import Spinner from "@/ui/Spinner";
 
+const ESTIMATED_CARD_HEIGHT = 140;
+
 export const Route = createFileRoute("/_wrapper/history")({
     component: History,
     // @ts-expect-error types not updating, works at runtime
@@ -14,33 +17,30 @@ export const Route = createFileRoute("/_wrapper/history")({
 });
 
 function History() {
-    const loadMoreRef = useRef<HTMLDivElement>(null);
+    const parentRef = useRef<HTMLDivElement>(null);
 
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useGameHistory();
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-                    fetchNextPage();
-                }
-            },
-            { threshold: 0.1 }
-        );
-
-        const currentRef = loadMoreRef.current;
-        if (currentRef) {
-            observer.observe(currentRef);
-        }
-
-        return () => {
-            if (currentRef) {
-                observer.unobserve(currentRef);
-            }
-        };
-    }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
-
     const history = data?.pages.flatMap((page) => page.data) ?? [];
+
+    const virtualizer = useVirtualizer({
+        count: history.length,
+        getScrollElement: () => parentRef.current,
+        estimateSize: () => ESTIMATED_CARD_HEIGHT,
+        gap: 16,
+        overscan: 5,
+    });
+
+    const virtualItems = virtualizer.getVirtualItems();
+
+    useEffect(() => {
+        const lastItem = virtualItems.at(-1);
+        if (!lastItem) return;
+
+        if (lastItem.index >= history.length - 1 && hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
+        }
+    }, [virtualItems, history.length, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     return (
         <>
@@ -50,14 +50,22 @@ function History() {
                 {history.length === 0 ? (
                     <EmptyHistory />
                 ) : (
-                    <ScrollArea className="h-[calc(100vh-9.738rem)]">
-                        <div className="flex flex-col gap-4 pr-2">
-                            {history.map((game) => (
-                                <HistoryCard key={game.id} game={game} />
+                    <ScrollArea viewportRef={parentRef} className="h-[calc(100vh-9.738rem)]">
+                        <div className="relative w-full" style={{ height: `${virtualizer.getTotalSize()}px` }}>
+                            {virtualItems.map((virtualItem) => (
+                                <div
+                                    key={virtualItem.key}
+                                    className="absolute top-0 left-0 w-full pr-2"
+                                    style={{
+                                        height: `${virtualItem.size}px`,
+                                        transform: `translateY(${virtualItem.start}px)`,
+                                    }}
+                                >
+                                    <HistoryCard game={history[virtualItem.index]} />
+                                </div>
                             ))}
-                            <div ref={loadMoreRef} className="h-1" />
-                            {isFetchingNextPage && <Spinner className="mx-auto" />}
                         </div>
+                        {isFetchingNextPage && <Spinner className="mx-auto my-4" />}
                     </ScrollArea>
                 )}
             </div>
