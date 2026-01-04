@@ -3,6 +3,7 @@ import { BackNav } from "@/components/BackNav";
 import EmptyHistory from "@/components/history/EmptyHistory";
 import { HistoryCard } from "@/components/history/HistoryCard";
 import { getGameHistory } from "@/lib/game/history";
+import { ScrollArea } from "@/ui/ScrollArea";
 
 export const Route = createFileRoute("/_wrapper/history")({
     component: History,
@@ -23,11 +24,13 @@ function History() {
                 {history.length === 0 ? (
                     <EmptyHistory />
                 ) : (
-                    <div className="flex flex-col gap-4">
-                        {history.map((game) => (
-                            <HistoryCard key={game.id} game={game} />
-                        ))}
-                    </div>
+                    <ScrollArea className="h-[calc(100vh-9.738rem)]">
+                        <div className="flex flex-col gap-4 pr-2">
+                            {history.map((game) => (
+                                <HistoryCard key={game.id} game={game} />
+                            ))}
+                        </div>
+                    </ScrollArea>
                 )}
             </div>
         </>
