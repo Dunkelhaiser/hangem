@@ -3,6 +3,7 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import { useEffect, useRef } from "react";
 import { BackNav } from "@/components/BackNav";
 import EmptyHistory from "@/components/history/EmptyHistory";
+import { GroupSelect } from "@/components/history/GroupSelect";
 import { HistoryCard } from "@/components/history/HistoryCard";
 import { SortBySelect } from "@/components/history/SortBySelect";
 import { SortOrderButton } from "@/components/history/SortOrderButton";
@@ -16,17 +17,17 @@ const ESTIMATED_CARD_HEIGHT = 140;
 export const Route = createFileRoute("/_wrapper/history")({
     component: History,
     validateSearch: historySortSchema,
-    loaderDeps: ({ search: { order, sortBy } }) => ({ sortBy, order }),
-    loader: ({ context, deps: { sortBy, order } }) =>
+    loaderDeps: ({ search: { order, sortBy, group } }) => ({ sortBy, order, group }),
+    loader: ({ context, deps: { sortBy, order, group } }) =>
         // @ts-expect-error types not updating, works at runtime
-        context.queryClient.prefetchInfiniteQuery(getGameHistoryQueryOptions({ sortBy, order })),
+        context.queryClient.prefetchInfiniteQuery(getGameHistoryQueryOptions({ sortBy, order, group })),
 });
 
 function History() {
     const parentRef = useRef<HTMLDivElement>(null);
-    const { sortBy, order } = Route.useSearch();
+    const { sortBy, order, group } = Route.useSearch();
 
-    const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useGameHistory({ sortBy, order });
+    const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useGameHistory({ sortBy, order, group });
 
     const history = data?.pages.flatMap((page) => page.data) ?? [];
 
@@ -53,6 +54,7 @@ function History() {
         <>
             <BackNav>
                 <div className="flex justify-end gap-2">
+                    <GroupSelect value={group} />
                     <SortBySelect value={sortBy} />
                     <SortOrderButton sortBy={sortBy} order={order} />
                 </div>

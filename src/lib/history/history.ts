@@ -5,27 +5,32 @@ import { type CurrentGame, currentGame, type GameHistoryInsert, gameHistory } fr
 
 export const sortBySchema = z.enum(["date", "word"]).default("date").catch("date");
 export const orderSchema = z.enum(["asc", "desc"]).default("desc").catch("desc");
+export const groupSchema = z.enum(["all", "won", "lost"]).default("all").catch("all");
 
 export const historySortSchema = z.object({
     sortBy: sortBySchema,
     order: orderSchema,
+    group: groupSchema,
 });
 
 export type SortBy = z.infer<typeof sortBySchema>;
 export type Order = z.infer<typeof orderSchema>;
+export type Group = z.infer<typeof groupSchema>;
 export type HistorySort = z.infer<typeof historySortSchema>;
 
 export const saveGameToHistory = async (game: GameHistoryInsert) => {
     await db.insert(gameHistory).values(game);
 };
 
-export const getGameHistory = async (page: number, size: number, { sortBy, order }: HistorySort) => {
+export const getGameHistory = async (page: number, size: number, { sortBy, order, group }: HistorySort) => {
     const column = sortBy === "date" ? gameHistory.createdAt : gameHistory.word;
     const orderFn = order === "asc" ? asc : desc;
 
     const history = await db
         .select()
         .from(gameHistory)
+        // biome-ignore lint/style/noNestedTernary: readable enough
+        .where(group === "won" ? eq(gameHistory.won, true) : group === "lost" ? eq(gameHistory.won, false) : undefined)
         .orderBy(orderFn(column))
         .limit(size)
         .offset(page * size);
