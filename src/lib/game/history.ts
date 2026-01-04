@@ -6,9 +6,18 @@ export const saveGameToHistory = async (game: GameHistoryInsert) => {
     await db.insert(gameHistory).values(game);
 };
 
-export const getGameHistory = async () => {
-    const history = await db.select().from(gameHistory).orderBy(desc(gameHistory.createdAt));
-    return history;
+export const getGameHistory = async (page = 0, size = 10) => {
+    const history = await db
+        .select()
+        .from(gameHistory)
+        .orderBy(desc(gameHistory.createdAt))
+        .limit(size)
+        .offset(page * size);
+
+    return {
+        data: history,
+        nextPage: history.length === size ? page + 1 : undefined,
+    };
 };
 
 export const getPlayedCombinations = async () => {
