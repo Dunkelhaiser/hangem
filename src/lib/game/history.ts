@@ -1,16 +1,32 @@
-import { and, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq } from "drizzle-orm";
+import { z } from "zod";
 import { db } from "@/db/client";
 import { type CurrentGame, currentGame, type GameHistoryInsert, gameHistory } from "@/db/schema";
+
+export const sortBySchema = z.enum(["date", "word"]).default("date").catch("date");
+export const orderSchema = z.enum(["asc", "desc"]).default("desc").catch("desc");
+
+export const historySortSchema = z.object({
+    sortBy: sortBySchema,
+    order: orderSchema,
+});
+
+export type SortBy = z.infer<typeof sortBySchema>;
+export type Order = z.infer<typeof orderSchema>;
+export type HistorySort = z.infer<typeof historySortSchema>;
 
 export const saveGameToHistory = async (game: GameHistoryInsert) => {
     await db.insert(gameHistory).values(game);
 };
 
-export const getGameHistory = async (page = 0, size = 10) => {
+export const getGameHistory = async (page: number, size: number, { sortBy, order }: HistorySort) => {
+    const column = sortBy === "date" ? gameHistory.createdAt : gameHistory.word;
+    const orderFn = order === "asc" ? asc : desc;
+
     const history = await db
         .select()
         .from(gameHistory)
-        .orderBy(desc(gameHistory.createdAt))
+        .orderBy(orderFn(column))
         .limit(size)
         .offset(page * size);
 
