@@ -7,8 +7,8 @@ import { Keyboard } from "@/components/hangman/Keyboard/Keyboard";
 import { Button } from "@/components/ui/Button";
 import { customWordSearchQuerySchema } from "@/lib/game/customWordSchema";
 import { decodeCustomWord } from "@/lib/game/encoding";
-import { findExistingGame, getCurrentGame, getPlayedCombinations } from "@/lib/game/history";
 import { useGame } from "@/lib/game/useGame";
+import { findExistingGame, getCurrentGame, getPlayedCombinations } from "@/lib/history/history";
 
 export const Route = createFileRoute("/_wrapper/play")({
     component: Game,

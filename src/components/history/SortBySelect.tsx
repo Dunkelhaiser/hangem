@@ -1,4 +1,4 @@
-import type { SortBy } from "@/lib/game/history";
+import type { SortBy } from "@/lib/history/history";
 import { Route } from "@/routes/_wrapper/history";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/Select";
 

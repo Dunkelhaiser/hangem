@@ -6,8 +6,8 @@ import EmptyHistory from "@/components/history/EmptyHistory";
 import { HistoryCard } from "@/components/history/HistoryCard";
 import { SortBySelect } from "@/components/history/SortBySelect";
 import { SortOrderButton } from "@/components/history/SortOrderButton";
-import { historySortSchema } from "@/lib/game/history";
-import { getGameHistoryQueryOptions, useGameHistory } from "@/lib/game/historyHooks";
+import { historySortSchema } from "@/lib/history/history";
+import { getGameHistoryQueryOptions, useGameHistory } from "@/lib/history/historyHooks";
 import { ScrollArea } from "@/ui/ScrollArea";
 import Spinner from "@/ui/Spinner";
 

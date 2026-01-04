@@ -1,9 +1,9 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import type { CurrentGame } from "@/db/schema";
+import { clearCurrentGame, getCurrentGame, saveCurrentGame, saveGameToHistory } from "../history/history";
 import { type CustomWordPayload, isLatinChar } from "./customWordSchema";
 import { generateWord } from "./generateWord";
-import { clearCurrentGame, getCurrentGame, saveCurrentGame, saveGameToHistory } from "./history";
 
 const MAX_ATTEMPTS = 6;
 

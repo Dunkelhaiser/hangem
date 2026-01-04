@@ -1,5 +1,5 @@
 import { ArrowDownAZ, ArrowDownZA, CalendarArrowDown, CalendarArrowUp } from "lucide-react";
-import type { Order, SortBy } from "@/lib/game/history";
+import type { Order, SortBy } from "@/lib/history/history";
 import { Route } from "@/routes/_wrapper/history";
 import { Button } from "@/ui/Button";
 
