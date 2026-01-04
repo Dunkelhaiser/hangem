@@ -19,7 +19,7 @@ export const GameModeDialog = ({ trigger }: Props) => {
                 <Button nativeButton={false} render={<Link to="/play" />}>
                     Classic Mode
                 </Button>
-                <Button variant="secondary">Challenge Mode</Button>
+                {/* <Button variant="secondary">Challenge Mode</Button> */}
                 <CustomWordDialog trigger={<Button variant="outline">Custom Word</Button>} />
             </DialogContent>
         </Dialog>
