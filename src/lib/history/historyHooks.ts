@@ -1,7 +1,8 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 import { getLocalStorage, saveLocalStorage } from "@/lib/utils";
 import { Route } from "@/routes/_wrapper/history";
-import { getGameHistory, type HistorySort } from "./history";
+import { exportGameHistory, getGameHistory, type HistorySort } from "./history";
 
 export const getGameHistoryQueryOptions = ({ sortBy, order, group }: HistorySort) => ({
     queryKey: ["gameHistory", sortBy, order, group],
@@ -26,4 +27,13 @@ export const useUpdateSearchFilters = () => {
         saveSearchFilters(params);
         navigate({ search: (prev) => ({ ...prev, ...params }) });
     };
+};
+
+export const useExportHistory = () => {
+    return useMutation({
+        mutationFn: async () => {
+            await exportGameHistory();
+            toast.success("Game history exported successfully");
+        },
+    });
 };

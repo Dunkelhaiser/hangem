@@ -70,3 +70,21 @@ export const saveCurrentGame = async (word: string, category: string, guessedLet
 export const clearCurrentGame = async () => {
     await db.delete(currentGame);
 };
+
+export const exportGameHistory = async () => {
+    const history = await db.select().from(gameHistory).orderBy(desc(gameHistory.createdAt));
+
+    const jsonContent = JSON.stringify(history, null, 2);
+    const blob = new Blob([jsonContent], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `hangem-history-${new Date().toISOString().split("T")[0]}.json`;
+
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+};
