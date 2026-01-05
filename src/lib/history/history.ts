@@ -88,3 +88,25 @@ export const exportGameHistory = async () => {
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
 };
+
+const importHistorySchema = z.object({
+    word: z.string(),
+    category: z.string(),
+    guessedLetters: z.array(z.string()),
+    won: z.boolean(),
+    createdAt: z.coerce.date(),
+});
+
+const importSchema = z.array(importHistorySchema);
+
+export const importGameHistory = async (jsonString: string) => {
+    const parsed = importSchema.parse(JSON.parse(jsonString));
+
+    await db.delete(gameHistory);
+
+    if (parsed.length > 0) {
+        await db.insert(gameHistory).values(parsed);
+    }
+
+    return { imported: parsed.length };
+};

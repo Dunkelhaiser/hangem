@@ -1,8 +1,8 @@
-import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { getLocalStorage, saveLocalStorage } from "@/lib/utils";
 import { Route } from "@/routes/_wrapper/history";
-import { exportGameHistory, getGameHistory, type HistorySort } from "./history";
+import { exportGameHistory, getGameHistory, type HistorySort, importGameHistory } from "./history";
 
 export const getGameHistoryQueryOptions = ({ sortBy, order, group }: HistorySort) => ({
     queryKey: ["gameHistory", sortBy, order, group],
@@ -34,6 +34,24 @@ export const useExportHistory = () => {
         mutationFn: async () => {
             await exportGameHistory();
             toast.success("Game history exported successfully");
+        },
+    });
+};
+
+export const useImportHistory = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async (file: File) => {
+            const jsonString = await file.text();
+            return importGameHistory(jsonString);
+        },
+        onSuccess: ({ imported }) => {
+            queryClient.invalidateQueries({ queryKey: ["gameHistory"] });
+            toast.success(`Imported ${imported} records`);
+        },
+        onError: () => {
+            toast.error("Failed to import history. Please check the file format.");
         },
     });
 };
