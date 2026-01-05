@@ -4,6 +4,7 @@ import { StrictMode } from "react";
 import ReactDom from "react-dom/client";
 import { routeTree } from "./routeTree.gen";
 import "./styles.css";
+import { LoadingBarContainer } from "react-top-loading-bar";
 
 const queryClient = new QueryClient();
 
@@ -28,7 +29,16 @@ if (rootElement && !rootElement.innerHTML) {
     root.render(
         <StrictMode>
             <QueryClientProvider client={queryClient}>
-                <RouterProvider router={router} />
+                <LoadingBarContainer
+                    props={{
+                        color: "#ffd6a7",
+                        height: 3,
+                        shadow: false,
+                        waitingTime: 400,
+                    }}
+                >
+                    <RouterProvider router={router} />
+                </LoadingBarContainer>
             </QueryClientProvider>
         </StrictMode>
     );

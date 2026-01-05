@@ -1,4 +1,6 @@
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { createRootRoute, Outlet, useRouterState } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { useLoadingBar } from "react-top-loading-bar";
 import { initDb } from "@/db/client";
 import Spinner from "@/ui/Spinner";
 import { Toaster } from "@/ui/Toaster";
@@ -15,11 +17,23 @@ export const Route = createRootRoute({
         await initDb();
     },
     pendingComponent: LoadingScreen,
-    component: () => (
-        <main className="bg-background min-h-screen">
-            <Outlet />
-            <Toaster />
-            {/* <TanStackDevtools
+    component: () => {
+        const routerState = useRouterState();
+        const { start, complete } = useLoadingBar();
+
+        useEffect(() => {
+            if (routerState.isLoading) {
+                start();
+            } else {
+                complete();
+            }
+        }, [routerState.isLoading, start, complete]);
+
+        return (
+            <main className="bg-background min-h-screen">
+                <Outlet />
+                <Toaster />
+                {/* <TanStackDevtools
                 config={{
                     position: "bottom-right",
                 }}
@@ -30,6 +44,7 @@ export const Route = createRootRoute({
                     },
                 ]}
             /> */}
-        </main>
-    ),
+            </main>
+        );
+    },
 });
