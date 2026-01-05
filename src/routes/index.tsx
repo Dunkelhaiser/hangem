@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { GameModeDialog } from "@/components/menu/GameModeDialog";
 import { InstructionsDialog } from "@/components/menu/InstructionsDialog";
+import { SettingsDialog } from "@/components/menu/Settings/SettingsDialog";
 import { getSearchFilters } from "@/lib/history/historyHooks";
 import { Button } from "@/ui/Button";
 
@@ -27,9 +28,13 @@ function Index() {
                 >
                     History
                 </Button>
-                <Button variant="outline" size="lg">
-                    Settings
-                </Button>
+                <SettingsDialog
+                    trigger={
+                        <Button variant="outline" size="lg">
+                            Settings
+                        </Button>
+                    }
+                />
                 <InstructionsDialog
                     trigger={
                         <Button variant="outline" size="lg">
