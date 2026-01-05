@@ -1,4 +1,4 @@
-import { LoaderIcon, Trash2Icon } from "lucide-react";
+import { Trash2Icon } from "lucide-react";
 import { useState } from "react";
 import { useClearHistory } from "@/lib/history/historyHooks";
 import { Button } from "@/ui/Button";
@@ -16,8 +16,8 @@ const ClearDataBtn = () => {
 
     return (
         <>
-            <Button variant="outline" onClick={() => setDialogOpen(true)} disabled={isPending}>
-                {isPending ? <LoaderIcon className="size-4 animate-spin" /> : <Trash2Icon className="size-4" />}
+            <Button variant="outline" onClick={() => setDialogOpen(true)} loading={isPending}>
+                <Trash2Icon className="size-4" />
                 Clear Data
             </Button>
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -32,8 +32,7 @@ const ClearDataBtn = () => {
                         <Button variant="outline" onClick={() => setDialogOpen(false)}>
                             Cancel
                         </Button>
-                        <Button variant="destructive" onClick={handleConfirm} disabled={isPending}>
-                            {isPending ? <LoaderIcon className="size-4 animate-spin" /> : null}
+                        <Button variant="destructive" onClick={handleConfirm} loading={isPending}>
                             Clear History
                         </Button>
                     </DialogFooter>

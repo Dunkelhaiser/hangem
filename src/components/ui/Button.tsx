@@ -1,5 +1,6 @@
 import { Button as ButtonPrimitive } from "@base-ui/react/button";
 import { cva, type VariantProps } from "class-variance-authority";
+import { LoaderIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 // TODO: fix to use custom Tailwind variables for shadows
@@ -61,14 +62,30 @@ const buttonVariants = cva(
     }
 );
 
+type ButtonProps = ButtonPrimitive.Props &
+    VariantProps<typeof buttonVariants> & {
+        loading?: boolean;
+    };
+
 function Button({
     className,
     variant = "default",
     size = "default",
+    loading,
+    disabled,
+    children,
     ...props
-}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
+}: ButtonProps) {
     return (
-        <ButtonPrimitive data-slot="button" className={cn(buttonVariants({ variant, size, className }))} {...props} />
+        <ButtonPrimitive
+            data-slot="button"
+            className={cn(buttonVariants({ variant, size, className }))}
+            disabled={disabled || loading}
+            {...props}
+        >
+            {loading ? <LoaderIcon className="absolute size-4 animate-spin" /> : null}
+            <span className={cn("contents", loading && "invisible")}>{children}</span>
+        </ButtonPrimitive>
     );
 }
 

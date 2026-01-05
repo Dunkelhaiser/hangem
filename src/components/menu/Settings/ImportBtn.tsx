@@ -1,4 +1,4 @@
-import { DownloadIcon, LoaderIcon } from "lucide-react";
+import { DownloadIcon } from "lucide-react";
 import { useRef, useState } from "react";
 import { useImportHistory } from "@/lib/history/historyHooks";
 import { Button } from "@/ui/Button";
@@ -39,8 +39,8 @@ const ImportBtn = () => {
     return (
         <>
             <input ref={inputRef} type="file" accept=".json" onChange={handleFileChange} className="hidden" />
-            <Button variant="outline" onClick={handleClick} disabled={isPending}>
-                {isPending ? <LoaderIcon className="size-4 animate-spin" /> : <DownloadIcon className="size-4" />}
+            <Button variant="outline" onClick={handleClick} loading={isPending}>
+                <DownloadIcon className="size-4" />
                 Import
             </Button>
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
