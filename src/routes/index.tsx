@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { GameModeDialog } from "@/components/menu/GameModeDialog";
+import { InstructionsDialog } from "@/components/menu/InstructionsDialog";
 import { Button } from "@/ui/Button";
 
 export const Route = createFileRoute("/")({
@@ -18,9 +19,13 @@ function Index() {
                 <Button variant="outline" size="lg">
                     Settings
                 </Button>
-                <Button variant="outline" size="lg">
-                    Instructions
-                </Button>
+                <InstructionsDialog
+                    trigger={
+                        <Button variant="outline" size="lg">
+                            Instructions
+                        </Button>
+                    }
+                />
             </nav>
         </section>
     );
