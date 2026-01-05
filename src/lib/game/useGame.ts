@@ -1,5 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 import type { CurrentGame } from "@/db/schema";
 import { clearCurrentGame, getCurrentGame, saveCurrentGame, saveGameToHistory } from "../history/history";
 import { type CustomWordPayload, isLatinChar } from "./customWordSchema";
@@ -62,6 +63,9 @@ export const useGame = ({ initialWord, savedGame, playedCombinations }: Options)
 
     useEffect(() => {
         if ((isGameOver || isWin) && !savedRef.current && wordData) {
+            if (isWin) toast.success("You've guessed the word!");
+            else toast.error("You failed to guess the word");
+
             savedRef.current = true;
             saveGameToHistory({
                 word,
