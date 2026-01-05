@@ -1,5 +1,5 @@
 import type { SortBy } from "@/lib/history/history";
-import { Route } from "@/routes/_wrapper/history";
+import { useUpdateSearchFilters } from "@/lib/history/historyHooks";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/Select";
 
 interface Props {
@@ -12,11 +12,11 @@ const items = [
 ];
 
 export const SortBySelect = ({ value }: Props) => {
-    const navigate = Route.useNavigate();
+    const updateSearchParams = useUpdateSearchFilters();
 
     const handleChange = (newValue: SortBy | null) => {
         if (newValue) {
-            navigate({ search: (prev) => ({ ...prev, sortBy: newValue }) });
+            updateSearchParams({ sortBy: newValue });
         }
     };
 

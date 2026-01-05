@@ -1,5 +1,5 @@
 import type { Group } from "@/lib/history/history";
-import { Route } from "@/routes/_wrapper/history";
+import { useUpdateSearchFilters } from "@/lib/history/historyHooks";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/Select";
 
 interface Props {
@@ -13,11 +13,11 @@ const items = [
 ];
 
 export const GroupSelect = ({ value }: Props) => {
-    const navigate = Route.useNavigate();
+    const updateSearchParams = useUpdateSearchFilters();
 
     const handleChange = (newValue: Group | null) => {
         if (newValue) {
-            navigate({ search: (prev) => ({ ...prev, group: newValue }) });
+            updateSearchParams({ group: newValue });
         }
     };
 

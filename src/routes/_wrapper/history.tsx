@@ -8,7 +8,7 @@ import { HistoryCard } from "@/components/history/HistoryCard";
 import { SortBySelect } from "@/components/history/SortBySelect";
 import { SortOrderButton } from "@/components/history/SortOrderButton";
 import { historySortSchema } from "@/lib/history/history";
-import { getGameHistoryQueryOptions, useGameHistory } from "@/lib/history/historyHooks";
+import { getGameHistoryQueryOptions, getSearchFilters, useGameHistory } from "@/lib/history/historyHooks";
 import { ScrollArea } from "@/ui/ScrollArea";
 import Spinner from "@/ui/Spinner";
 
@@ -16,7 +16,7 @@ const ESTIMATED_CARD_HEIGHT = 140;
 
 export const Route = createFileRoute("/_wrapper/history")({
     component: History,
-    validateSearch: historySortSchema,
+    validateSearch: (search) => historySortSchema.parse({ ...getSearchFilters(), ...search }),
     loaderDeps: ({ search: { order, sortBy, group } }) => ({ sortBy, order, group }),
     loader: ({ context, deps: { sortBy, order, group } }) =>
         // @ts-expect-error types not updating, works at runtime

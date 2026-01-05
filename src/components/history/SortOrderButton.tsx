@@ -1,6 +1,6 @@
 import { ArrowDownAZ, ArrowDownZA, CalendarArrowDown, CalendarArrowUp } from "lucide-react";
 import type { Order, SortBy } from "@/lib/history/history";
-import { Route } from "@/routes/_wrapper/history";
+import { useUpdateSearchFilters } from "@/lib/history/historyHooks";
 import { Button } from "@/ui/Button";
 
 interface Props {
@@ -9,10 +9,10 @@ interface Props {
 }
 
 export const SortOrderButton = ({ sortBy, order }: Props) => {
-    const navigate = Route.useNavigate();
+    const updateSearchParams = useUpdateSearchFilters();
 
     const handleClick = () => {
-        navigate({ search: (prev) => ({ ...prev, order: order === "asc" ? "desc" : "asc" }) });
+        updateSearchParams({ order: order === "asc" ? "desc" : "asc" });
     };
 
     const getSortIcon = () => {
