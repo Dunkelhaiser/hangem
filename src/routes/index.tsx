@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { GameModeDialog } from "@/components/menu/GameModeDialog";
 import { InstructionsDialog } from "@/components/menu/InstructionsDialog";
+import { getSearchFilters } from "@/lib/history/historyHooks";
 import { Button } from "@/ui/Button";
 
 export const Route = createFileRoute("/")({
@@ -13,7 +14,17 @@ function Index() {
             <h1 className="text-6xl font-bold tracking-tighter text-foreground font-mono">Hangem</h1>
             <nav className="flex flex-col w-full max-w-xs gap-4">
                 <GameModeDialog trigger={<Button size="lg">Play</Button>} />
-                <Button variant="outline" size="lg" nativeButton={false} render={<Link to="/history" />}>
+                <Button
+                    variant="outline"
+                    size="lg"
+                    nativeButton={false}
+                    render={
+                        <Link
+                            to="/history"
+                            search={{ sortBy: "date", order: "desc", group: "all", ...getSearchFilters() }}
+                        />
+                    }
+                >
                     History
                 </Button>
                 <Button variant="outline" size="lg">
