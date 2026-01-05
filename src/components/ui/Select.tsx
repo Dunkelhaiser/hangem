@@ -64,7 +64,7 @@ function SelectContent({
                 <SelectPrimitive.Popup
                     data-slot="select-content"
                     className={cn(
-                        "bg-white text-muted-foreground font-mono font-semibold border-2 border-border shadow-ring shadow-[2px_2px_0px] data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 min-w-36 rounded-sketchy duration-100 relative isolate z-50 max-h-(--available-height) w-(--anchor-width) origin-(--transform-origin) overflow-x-hidden overflow-y-auto",
+                        "bg-white dark:bg-input text-muted-foreground font-mono font-semibold border-2 border-border shadow-ring shadow-[2px_2px_0px] data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 min-w-36 rounded-sketchy duration-100 relative isolate z-50 max-h-(--available-height) w-(--anchor-width) origin-(--transform-origin) overflow-x-hidden overflow-y-auto",
                         className
                     )}
                     {...props}
@@ -93,7 +93,7 @@ function SelectItem({ className, children, ...props }: SelectPrimitive.Item.Prop
         <SelectPrimitive.Item
             data-slot="select-item"
             className={cn(
-                "focus:bg-primary focus:text-card-foreground not-data-[variant=destructive]:focus:**:text-card-foreground gap-2 rounded-sm py-1.5 pr-8 pl-2 text-sm [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2 relative flex w-full cursor-default items-center outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+                "focus:bg-primary dark:focus:bg-secondary focus:text-card-foreground not-data-[variant=destructive]:focus:**:text-card-foreground gap-2 rounded-sm py-1.5 pr-8 pl-2 text-sm [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2 relative flex w-full cursor-default items-center outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
                 className
             )}
             {...props}
