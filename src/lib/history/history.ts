@@ -110,3 +110,8 @@ export const importGameHistory = async (jsonString: string) => {
 
     return { imported: parsed.length };
 };
+
+export const clearGameHistory = async () => {
+    await db.delete(gameHistory);
+    await db.delete(currentGame);
+};

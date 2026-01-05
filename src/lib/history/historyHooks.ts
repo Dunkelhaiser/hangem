@@ -2,7 +2,7 @@ import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-q
 import { toast } from "sonner";
 import { getLocalStorage, saveLocalStorage } from "@/lib/utils";
 import { Route } from "@/routes/_wrapper/history";
-import { exportGameHistory, getGameHistory, type HistorySort, importGameHistory } from "./history";
+import { clearGameHistory, exportGameHistory, getGameHistory, type HistorySort, importGameHistory } from "./history";
 
 export const getGameHistoryQueryOptions = ({ sortBy, order, group }: HistorySort) => ({
     queryKey: ["gameHistory", sortBy, order, group],
@@ -52,6 +52,21 @@ export const useImportHistory = () => {
         },
         onError: () => {
             toast.error("Failed to import history. Please check the file format.");
+        },
+    });
+};
+
+export const useClearHistory = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: clearGameHistory,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["gameHistory"] });
+            toast.success("Game history cleared");
+        },
+        onError: () => {
+            toast.error("Failed to clear history");
         },
     });
 };
