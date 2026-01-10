@@ -14,5 +14,17 @@
         "bps": true,
         "folderMillis": 1767451781358,
         "hash": "bf2cb0e971089b5689471d021d5bbf3cc17c37e7a207aa2d960d4ae471ce416c"
+    },
+    {
+        "sql": ["CREATE TYPE \"difficulty\" AS ENUM ('normal', 'easy');"],
+        "bps": true,
+        "folderMillis": 1768080768559,
+        "hash": "d4f7f3f3f1e4e4b5e6c8f7a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9"
+    },
+    {
+        "sql": ["ALTER TABLE \"game_history\" ADD COLUMN \"difficulty\" \"difficulty\" DEFAULT 'normal' NOT NULL;"],
+        "bps": true,
+        "folderMillis": 1768080768559,
+        "hash": "cefa8c75d96428360847b0daee01bb2a3467272066039ae13688653ebe38c18f"
     }
 ]
