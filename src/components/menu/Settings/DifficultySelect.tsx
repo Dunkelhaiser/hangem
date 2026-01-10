@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { type Difficulty, getDifficulty, setDifficulty } from "@/lib/difficulty";
+import { clearCurrentGame } from "@/lib/history/history";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/Select";
 
 const difficultyOptions = [
@@ -10,10 +11,11 @@ const difficultyOptions = [
 const DifficultySelect = () => {
     const [difficulty, setDifficultyState] = useState<Difficulty>(getDifficulty);
 
-    const handleDifficultyChange = (value: Difficulty | null) => {
+    const handleDifficultyChange = async (value: Difficulty | null) => {
         if (!value) return;
         setDifficultyState(value);
         setDifficulty(value);
+        await clearCurrentGame();
     };
 
     return (
