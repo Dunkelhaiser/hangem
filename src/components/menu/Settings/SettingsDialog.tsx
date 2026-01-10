@@ -21,13 +21,15 @@ const SettingsDialog = ({ trigger }: Props) => {
                     <DialogTitle>Settings</DialogTitle>
                 </DialogHeader>
                 <div className="flex flex-col gap-4">
-                    <div className="flex flex-col gap-2">
-                        <Label>Difficulty</Label>
-                        <DifficultySelect />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <Label>Theme</Label>
-                        <ThemeSelect />
+                    <div className="flex gap-4 flex-wrap">
+                        <div className="flex flex-col gap-2">
+                            <Label>Difficulty</Label>
+                            <DifficultySelect />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <Label>Theme</Label>
+                            <ThemeSelect />
+                        </div>
                     </div>
                     <Separator />
                     <div className="flex flex-col gap-2 ">
