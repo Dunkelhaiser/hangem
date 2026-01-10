@@ -4,8 +4,9 @@ import { clearCurrentGame } from "@/lib/history/history";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/Select";
 
 const difficultyOptions = [
-    { value: "normal", label: "Normal" },
     { value: "easy", label: "Easy" },
+    { value: "normal", label: "Normal" },
+    { value: "hard", label: "Hard" },
 ] satisfies { value: Difficulty; label: string }[];
 
 const DifficultySelect = () => {

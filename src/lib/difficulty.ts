@@ -1,14 +1,12 @@
-export type Difficulty = "normal" | "easy";
+export type Difficulty = "normal" | "easy" | "hard";
 
 export const DIFFICULTY_KEY = "difficulty";
 
 export const getDifficulty = () => {
     const stored = localStorage.getItem(DIFFICULTY_KEY);
-
-    if (stored === "normal" || stored === "easy") {
+    if (stored === "normal" || stored === "easy" || stored === "hard") {
         return stored;
     }
-
     return "normal";
 };
 

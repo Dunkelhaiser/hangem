@@ -1,6 +1,6 @@
 import { boolean, pgEnum, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
-const difficultyEnum = pgEnum("difficulty", ["normal", "easy"]);
+const difficultyEnum = pgEnum("difficulty", ["normal", "easy", "hard"]);
 
 export const gameHistory = pgTable("game_history", {
     id: serial("id").primaryKey(),

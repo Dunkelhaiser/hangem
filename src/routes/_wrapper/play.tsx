@@ -88,7 +88,10 @@ function Game() {
                 <Gallows stage={displayWrongGuesses.length} difficulty={difficulty} />
                 <div className="flex flex-col items-center gap-4">
                     <p className="text-muted-foreground text-sm">
-                        Category: <span className="font-semibold text-foreground capitalize">{displayCategory}</span>
+                        Category:{" "}
+                        <span className="font-semibold text-foreground capitalize">
+                            {difficulty !== "hard" ? displayCategory : "???"}
+                        </span>
                     </p>
                     <Field word={displayWord} guessedLetters={displayGuessedLetters} isGameOver={displayIsGameOver} />
                 </div>
