@@ -76,6 +76,7 @@ function Game() {
         : wrongGuesses;
     const displayIsGameOver = isAlreadyCompleted || isGameOver;
     const isDisabled = isAlreadyCompleted || isGameOver || isWin;
+    const showCategory = difficulty !== "hard" || isDisabled;
 
     return (
         <>
@@ -90,7 +91,7 @@ function Game() {
                     <p className="text-muted-foreground text-sm">
                         Category:{" "}
                         <span className="font-semibold text-foreground capitalize">
-                            {difficulty !== "hard" ? displayCategory : "???"}
+                            {showCategory ? displayCategory : "???"}
                         </span>
                     </p>
                     <Field word={displayWord} guessedLetters={displayGuessedLetters} isGameOver={displayIsGameOver} />
