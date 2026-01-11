@@ -74,9 +74,10 @@ function Game() {
     const displayWrongGuesses = existingGame
         ? existingGame.guessedLetters.filter((letter) => !existingGame.word.toLowerCase().includes(letter))
         : wrongGuesses;
+    const displayDifficulty = existingGame?.difficulty ?? difficulty;
     const displayIsGameOver = isAlreadyCompleted || isGameOver;
     const isDisabled = isAlreadyCompleted || isGameOver || isWin;
-    const showCategory = difficulty !== "hard" || isDisabled;
+    const showCategory = displayDifficulty !== "hard" || isDisabled;
 
     return (
         <>
@@ -86,7 +87,7 @@ function Game() {
                 </Button>
             </BackNav>
             <div className="flex flex-col gap-8 items-center">
-                <Gallows stage={displayWrongGuesses.length} difficulty={difficulty} />
+                <Gallows stage={displayWrongGuesses.length} difficulty={displayDifficulty} />
                 <div className="flex flex-col items-center gap-4">
                     <p className="text-muted-foreground text-sm">
                         Category:{" "}
