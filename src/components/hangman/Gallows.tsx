@@ -1,11 +1,18 @@
-/** biome-ignore-all lint/style/noMagicNumbers: stages from 0 to 6 */
+/** biome-ignore-all lint/style/noMagicNumbers: stages from 0 to 6/12 depending on difficulty */
+/** biome-ignore-all lint/complexity/noExcessiveCognitiveComplexity: conditional rendering for gallows parts */
+import type { Difficulty } from "@/lib/difficulty";
 import { Card, CardContent } from "@/ui/Card";
 
 interface Props {
     stage: number;
+    difficulty: Difficulty;
 }
 
-const Gallows = ({ stage }: Props) => {
+const Gallows = ({ stage, difficulty }: Props) => {
+    const isEasyMode = difficulty === "easy";
+    const hangmanStage = isEasyMode ? Math.max(0, stage - 6) : stage;
+    const gallowsStage = isEasyMode ? Math.min(stage, 6) : 6;
+
     return (
         <Card>
             <CardContent>
@@ -62,6 +69,12 @@ const Gallows = ({ stage }: Props) => {
                                 stroke-dashoffset: 60;
                                 animation: drawPath 0.3s ease-out forwards;
                             }
+                            .animate-draw-gallows {
+                                --path-length: 250;
+                                stroke-dasharray: 250;
+                                stroke-dashoffset: 250;
+                                animation: drawPath 0.3s ease-out forwards;
+                            }
                             .animate-swing {
                                 transform-origin: 150px 60px;
                                 animation: swing 2s ease-in-out infinite;
@@ -69,46 +82,82 @@ const Gallows = ({ stage }: Props) => {
                         `}
                     </style>
 
-                    {/* base */}
-                    <path d="M20,230 Q100,225 180,230" />
+                    {/* Gallows parts, in easy mode drawn progressively */}
+                    {/* base - stage 1 in easy mode */}
+                    {gallowsStage >= 1 && (
+                        <path
+                            d="M20,230 Q100,225 180,230"
+                            className={isEasyMode && gallowsStage === 1 ? "animate-draw-gallows" : ""}
+                        />
+                    )}
 
-                    {/* pole */}
-                    <path d="M50,230 Q45,120 50,20" />
+                    {/* pole - stage 2 in easy mode */}
+                    {gallowsStage >= 2 && (
+                        <path
+                            d="M50,230 Q45,120 50,20"
+                            className={isEasyMode && gallowsStage === 2 ? "animate-draw-gallows" : ""}
+                        />
+                    )}
 
-                    {/* beam */}
-                    <path d="M50,20 Q110,25 150,20" />
+                    {/* beam - stage 3 in easy mode */}
+                    {gallowsStage >= 3 && (
+                        <path
+                            d="M50,20 Q110,25 150,20"
+                            className={isEasyMode && gallowsStage === 3 ? "animate-draw-gallows" : ""}
+                        />
+                    )}
 
-                    {/* right support angle */}
-                    <path d="M50,180 Q70,215 95,228" />
-                    {/* left support angle */}
-                    <path d="M50,180 Q35,215 20,230" />
-                    {/* top support angle */}
-                    <path d="M50,70 Q70,40 95,22" />
+                    {/* support angles - stage 4 in easy mode */}
+                    {gallowsStage >= 4 && (
+                        <>
+                            <path
+                                d="M50,180 Q70,215 95,228"
+                                className={isEasyMode && gallowsStage === 4 ? "animate-draw-gallows" : ""}
+                            />
+                            <path
+                                d="M50,180 Q35,215 20,230"
+                                className={isEasyMode && gallowsStage === 4 ? "animate-draw-gallows" : ""}
+                            />
+                        </>
+                    )}
 
-                    {/* rope */}
-                    <path d="M150,20 Q145,45 150,60" />
+                    {/* top support angle - stage 5 in easy mode */}
+                    {gallowsStage >= 5 && (
+                        <path
+                            d="M50,70 Q70,40 95,22"
+                            className={isEasyMode && gallowsStage === 5 ? "animate-draw-gallows" : ""}
+                        />
+                    )}
+
+                    {/* rope - stage 6 in easy mode */}
+                    {gallowsStage >= 6 && (
+                        <path
+                            d="M150,20 Q145,45 150,60"
+                            className={isEasyMode && gallowsStage === 6 ? "animate-draw-gallows" : ""}
+                        />
+                    )}
 
                     {/* hangman body group with swing animation */}
-                    <g className={stage >= 1 ? "animate-swing" : ""}>
+                    <g className={hangmanStage >= 1 ? "animate-swing" : ""}>
                         {/* head - drawn as path starting from rope point (top) */}
-                        {stage >= 1 && (
+                        {hangmanStage >= 1 && (
                             <path d="M150,60 A20,20 0 1,1 149.99,60" className="stroke-[5] animate-draw-head" />
                         )}
 
                         {/* body */}
-                        {stage >= 2 && <path d="M150,100 Q155,130 150,160" className="animate-draw-body" />}
+                        {hangmanStage >= 2 && <path d="M150,100 Q155,130 150,160" className="animate-draw-body" />}
 
                         {/* left arm */}
-                        {stage >= 3 && <path d="M150,115 Q130,125 120,140" className="animate-draw-arm" />}
+                        {hangmanStage >= 3 && <path d="M150,115 Q130,125 120,140" className="animate-draw-arm" />}
 
                         {/* right arm */}
-                        {stage >= 4 && <path d="M150,115 Q170,125 180,140" className="animate-draw-arm" />}
+                        {hangmanStage >= 4 && <path d="M150,115 Q170,125 180,140" className="animate-draw-arm" />}
 
                         {/* left leg */}
-                        {stage >= 5 && <path d="M150,160 Q135,185 130,210" className="animate-draw-leg" />}
+                        {hangmanStage >= 5 && <path d="M150,160 Q135,185 130,210" className="animate-draw-leg" />}
 
                         {/* right leg */}
-                        {stage >= 6 && <path d="M150,160 Q165,185 170,210" className="animate-draw-leg" />}
+                        {hangmanStage >= 6 && <path d="M150,160 Q165,185 170,210" className="animate-draw-leg" />}
                     </g>
                 </svg>
             </CardContent>

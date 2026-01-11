@@ -57,6 +57,22 @@ export const InstructionsDialog = ({ trigger }: Props) => {
                             </SectionList>
                         </Section>
                         <Separator />
+                        <Section title="Difficulties">
+                            <SectionList>
+                                <li>
+                                    <strong>Easy:</strong> 12 attempts (6 gallows, 6 hangman parts). The gallows are
+                                    drawn first, then the hangman.
+                                </li>
+                                <li>
+                                    <strong>Normal:</strong> 6 attempts (only hangman parts).
+                                </li>
+                                <li>
+                                    <strong>Hard:</strong> 6 attempts, but the word category is hidden until the game
+                                    ends.
+                                </li>
+                            </SectionList>
+                        </Section>
+                        <Separator />
                         <Section title="Controls">
                             <SectionList>
                                 <li>Click letters on the on-screen keyboard to make guesses</li>

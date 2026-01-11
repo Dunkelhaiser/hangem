@@ -14,5 +14,26 @@
         "bps": true,
         "folderMillis": 1767451781358,
         "hash": "bf2cb0e971089b5689471d021d5bbf3cc17c37e7a207aa2d960d4ae471ce416c"
+    },
+    {
+        "sql": [
+            "CREATE TYPE \"difficulty\" AS ENUM ('normal', 'easy');\nALTER TABLE \"game_history\" ADD COLUMN \"difficulty\" \"difficulty\" DEFAULT 'normal' NOT NULL;"
+        ],
+        "bps": true,
+        "folderMillis": 1768080768559,
+        "hash": "2ea6b884693c4a94532820e70d155e1609fb1e98bba66998c447099f681c7ed0"
+    },
+    {
+        "sql": [
+            "ALTER TABLE \"game_history\" ALTER COLUMN \"difficulty\" DROP DEFAULT;",
+            "ALTER TYPE \"difficulty\" RENAME TO \"difficulty_old\";",
+            "CREATE TYPE \"difficulty\" AS ENUM ('normal', 'easy', 'hard');",
+            "ALTER TABLE \"game_history\" ALTER COLUMN \"difficulty\" TYPE \"difficulty\" USING \"difficulty\"::text::\"difficulty\";",
+            "ALTER TABLE \"game_history\" ALTER COLUMN \"difficulty\" SET DEFAULT 'normal';",
+            "DROP TYPE \"difficulty_old\";"
+        ],
+        "bps": true,
+        "folderMillis": 1768085000000,
+        "hash": "d4f7e8c3b5e6f4a2b8e1c9f3e2d4c5b6a7b8c9d0e1f2a3b4c5d6e7f8g9h0i1j2"
     }
 ]

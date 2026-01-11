@@ -2,16 +2,16 @@ import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import type { CurrentGame } from "@/db/schema";
+import { type Difficulty, getMaxAttempts } from "@/lib/difficulty";
 import { clearCurrentGame, getCurrentGame, saveCurrentGame, saveGameToHistory } from "../history/history";
 import { type CustomWordPayload, isLatinChar } from "./customWordSchema";
 import { generateWord } from "./generateWord";
-
-const MAX_ATTEMPTS = 6;
 
 interface Options {
     initialWord?: CustomWordPayload;
     savedGame?: CurrentGame | null;
     playedCombinations: Set<string>;
+    difficulty: Difficulty;
 }
 
 const isSavedGameMatch = (savedGame: CurrentGame | null | undefined, word: string, category: string) => {
@@ -22,8 +22,9 @@ const isSavedGameMatch = (savedGame: CurrentGame | null | undefined, word: strin
     );
 };
 
-export const useGame = ({ initialWord, savedGame, playedCombinations }: Options) => {
+export const useGame = ({ initialWord, savedGame, playedCombinations, difficulty }: Options) => {
     const navigate = useNavigate();
+    const maxAttempts = getMaxAttempts(difficulty);
     const [wordData, setWordData] = useState<{ word: string; category: string } | null>(() => {
         if (initialWord) {
             return { ...initialWord, category: initialWord.category ?? "Custom" };
@@ -52,7 +53,7 @@ export const useGame = ({ initialWord, savedGame, playedCombinations }: Options)
     const isExhausted = wordData === null;
 
     const wrongGuesses = guessedLetters.filter((letter) => !word.toLowerCase().includes(letter.toLowerCase()));
-    const isGameOver = wrongGuesses.length >= MAX_ATTEMPTS;
+    const isGameOver = wrongGuesses.length >= maxAttempts;
     const isWin =
         word.length > 0 &&
         word
@@ -72,6 +73,7 @@ export const useGame = ({ initialWord, savedGame, playedCombinations }: Options)
                 category,
                 guessedLetters,
                 won: isWin,
+                difficulty,
             });
             const key = `${word.toLowerCase()}:${category.toLowerCase()}`;
             playedCombinationsRef.current?.add(key);
@@ -79,7 +81,7 @@ export const useGame = ({ initialWord, savedGame, playedCombinations }: Options)
                 clearCurrentGame();
             }
         }
-    }, [isGameOver, isWin, word, category, guessedLetters, wordData, isCustomWord]);
+    }, [isGameOver, isWin, word, category, guessedLetters, wordData, isCustomWord, difficulty]);
 
     const handleNextWord = async () => {
         savedRef.current = false;

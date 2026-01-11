@@ -36,9 +36,14 @@ export const HistoryCard = ({ game }: Props) => {
                 </span>
             </CardHeader>
             <CardContent className="flex flex-col gap-2">
-                <p className="text-sm text-muted-foreground">
-                    Category: <span className="text-foreground capitalize font-semibold">{game.category}</span>
-                </p>
+                <div className="flex gap-4 text-sm text-muted-foreground">
+                    <p>
+                        Category: <span className="text-foreground capitalize font-semibold">{game.category}</span>
+                    </p>
+                    <p>
+                        Difficulty: <span className="text-foreground capitalize font-semibold">{game.difficulty}</span>
+                    </p>
+                </div>
                 <div className="flex flex-wrap gap-2 text-sm">
                     <span className="text-muted-foreground">Guesses:</span>
                     {correctLetters.map((letter) => (

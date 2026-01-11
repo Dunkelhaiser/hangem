@@ -123,7 +123,8 @@
                         "noImgElement": "off"
                     },
                     "complexity": {
-                        "noExcessiveLinesPerFunction": "off"
+                        "noExcessiveLinesPerFunction": "off",
+                        "noExcessiveCognitiveComplexity": "off"
                     }
                 }
             }

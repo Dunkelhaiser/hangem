@@ -1,4 +1,6 @@
-import { boolean, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { boolean, pgEnum, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+
+const difficultyEnum = pgEnum("difficulty", ["normal", "easy", "hard"]);
 
 export const gameHistory = pgTable("game_history", {
     id: serial("id").primaryKey(),
@@ -6,6 +8,7 @@ export const gameHistory = pgTable("game_history", {
     category: text("category").notNull(),
     guessedLetters: text("guessed_letters").array().notNull(),
     won: boolean("won").notNull(),
+    difficulty: difficultyEnum().notNull().default("normal"),
     createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
