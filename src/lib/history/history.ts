@@ -94,7 +94,7 @@ const importHistorySchema = z.object({
     category: z.string(),
     guessedLetters: z.array(z.string()),
     won: z.boolean(),
-    difficulty: z.enum(["normal", "easy"]),
+    difficulty: z.enum(["normal", "easy", "hard"]),
     createdAt: z.coerce.date(),
 });
 
