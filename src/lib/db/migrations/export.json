@@ -16,12 +16,16 @@
         "hash": "bf2cb0e971089b5689471d021d5bbf3cc17c37e7a207aa2d960d4ae471ce416c"
     },
     {
-        "sql": [
-            "CREATE TYPE \"difficulty\" AS ENUM ('normal', 'easy');\nALTER TABLE \"game_history\" ADD COLUMN \"difficulty\" \"difficulty\" DEFAULT 'normal' NOT NULL;"
-        ],
+        "sql": ["CREATE TYPE \"difficulty\" AS ENUM ('normal', 'easy');"],
         "bps": true,
         "folderMillis": 1768080768559,
         "hash": "2ea6b884693c4a94532820e70d155e1609fb1e98bba66998c447099f681c7ed0"
+    },
+    {
+        "sql": ["ALTER TABLE \"game_history\" ADD COLUMN \"difficulty\" \"difficulty\" DEFAULT 'normal' NOT NULL;"],
+        "bps": true,
+        "folderMillis": 1768081000000,
+        "hash": "f1c2d3e4b5a69788796a5b4c3d2e1f0a9b8c7d6e5f4a3b2c1d0e9f8g7h6i5j4k"
     },
     {
         "sql": [
