@@ -52,7 +52,7 @@ export const generateWord = (playedCombinations?: Set<string>, language: Languag
         for (let i = 0; i < MAX_ATTEMPTS; i++) {
             const category = ukCategories[Math.floor(Math.random() * ukCategories.length)];
             const word = category.words[Math.floor(Math.random() * category.words.length)];
-            const key = `${word.toLowerCase()}:${category.name.toLowerCase()}:${language}`;
+            const key = `${word.toLowerCase()}:${category.name.toLowerCase()}`;
             if (!playedCombinations?.has(key)) {
                 return { word, category: category.name };
             }
@@ -62,7 +62,7 @@ export const generateWord = (playedCombinations?: Set<string>, language: Languag
     for (let i = 0; i < MAX_ATTEMPTS; i++) {
         const category = faker.helpers.arrayElement(categories);
         const word = category.generator();
-        const key = `${word.toLowerCase()}:${category.name.toLowerCase()}:${language}`;
+        const key = `${word.toLowerCase()}:${category.name.toLowerCase()}`;
 
         if (!playedCombinations?.has(key)) {
             return { word, category: category.name };
