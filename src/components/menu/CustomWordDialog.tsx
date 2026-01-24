@@ -8,6 +8,7 @@ import { Button } from "@/ui/Button";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/ui/Dialog";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/ui/Field";
 import { Input } from "@/ui/Input";
+import { CustomWordLanguageSelect } from "./CustomWordLanguageSelect";
 
 interface Props {
     trigger: React.ReactElement;
@@ -21,6 +22,7 @@ export const CustomWordDialog = ({ trigger }: Props) => {
         defaultValues: {
             word: "",
             category: "",
+            language: "en",
         },
         validators: {
             onSubmit: customWordSchema,
@@ -30,6 +32,7 @@ export const CustomWordDialog = ({ trigger }: Props) => {
             const encodedData = encodeCustomWord({
                 word: parsedValue.word,
                 category: parsedValue.category || undefined,
+                language: parsedValue.language,
             });
 
             const url = new URL("/play", window.location.origin);
@@ -63,6 +66,18 @@ export const CustomWordDialog = ({ trigger }: Props) => {
                     }}
                 >
                     <FieldGroup>
+                        <form.Field
+                            name="language"
+                            children={(field) => (
+                                <Field>
+                                    <FieldLabel htmlFor={field.name}>Language</FieldLabel>
+                                    <CustomWordLanguageSelect
+                                        value={field.state.value}
+                                        onChange={(lang) => field.handleChange(lang as string)}
+                                    />
+                                </Field>
+                            )}
+                        />
                         <form.Field
                             name="word"
                             children={(field) => {

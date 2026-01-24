@@ -22,6 +22,20 @@
             "when": 1768080768559,
             "tag": "0002_dear_gamma_corps",
             "breakpoints": true
+        },
+        {
+            "idx": 3,
+            "version": "7",
+            "when": 1769256843957,
+            "tag": "0003_serious_marauders",
+            "breakpoints": true
+        },
+        {
+            "idx": 4,
+            "version": "7",
+            "when": 1769256853177,
+            "tag": "0004_tearful_captain_universe",
+            "breakpoints": true
         }
     ]
 }

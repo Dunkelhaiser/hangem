@@ -73,6 +73,11 @@ export const InstructionsDialog = ({ trigger }: Props) => {
                             </SectionList>
                         </Section>
                         <Separator />
+                        <Section title="Languages">
+                            Choose between English and Ukrainian word lists in the settings or when creating a custom
+                            word.
+                        </Section>
+                        <Separator />
                         <Section title="Controls">
                             <SectionList>
                                 <li>Click letters on the on-screen keyboard to make guesses</li>

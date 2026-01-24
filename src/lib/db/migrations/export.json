@@ -39,5 +39,29 @@
         "bps": true,
         "folderMillis": 1768085000000,
         "hash": "d4f7e8c3b5e6f4a2b8e1c9f3e2d4c5b6a7b8c9d0e1f2a3b4c5d6e7f8g9h0i1j2"
+    },
+    {
+        "sql": ["CREATE TYPE \"language\" AS ENUM ('en', 'uk');"],
+        "bps": true,
+        "folderMillis": 1768244861234,
+        "hash": "f3d3f3f1e2b1c4e5d6f7a8b9c0d1e2f3a4b5c6d7e8f90123456789abcdef0123"
+    },
+    {
+        "sql": [
+            "ALTER TABLE \"current_game\" ADD COLUMN \"language\" \"language\" DEFAULT 'en' NOT NULL;",
+            "\nALTER TABLE \"game_history\" ADD COLUMN \"language\" \"language\" DEFAULT 'en' NOT NULL;"
+        ],
+        "bps": true,
+        "folderMillis": 1769256843957,
+        "hash": "1802f2755a4428cb324754e2e00111fe750a03968ca505758edbbf7731e333e4"
+    },
+    {
+        "sql": [
+            "ALTER TABLE \"current_game\" ALTER COLUMN \"language\" DROP DEFAULT;",
+            "\nALTER TABLE \"game_history\" ALTER COLUMN \"language\" DROP DEFAULT;"
+        ],
+        "bps": true,
+        "folderMillis": 1769256853177,
+        "hash": "dbc3a48790396c10d8f95cd9b205a705f99a8d32f93b25bdcf6bec7ecb9d0b38"
     }
 ]

@@ -1,10 +1,12 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
+import { getLanguage } from "@/components/menu/Settings/LanguageSelect";
 import type { CurrentGame } from "@/db/schema";
 import { type Difficulty, getMaxAttempts } from "@/lib/difficulty";
-import { clearCurrentGame, getCurrentGame, saveCurrentGame, saveGameToHistory } from "../history/history";
-import { type CustomWordPayload, isLatinChar } from "./customWordSchema";
+import { clearCurrentGame, getCurrentGame, saveCurrentGame, saveGameToHistory } from "@/lib/history/history";
+import { isValidChar } from "@/lib/languages/validators";
+import type { CustomWordPayload } from "./customWordSchema";
 import { generateWord } from "./generateWord";
 
 interface Options {
@@ -26,13 +28,14 @@ export const useGame = ({ initialWord, savedGame, playedCombinations, difficulty
     const navigate = useNavigate();
     const maxAttempts = getMaxAttempts(difficulty);
     const [wordData, setWordData] = useState<{ word: string; category: string } | null>(() => {
+        const language = getLanguage();
         if (initialWord) {
             return { ...initialWord, category: initialWord.category ?? "Custom" };
         }
         if (savedGame) {
             return { word: savedGame.word, category: savedGame.category };
         }
-        return generateWord(playedCombinations);
+        return generateWord(playedCombinations, language);
     });
     const [guessedLetters, setGuessedLetters] = useState<string[]>(() => {
         if (initialWord) {
@@ -51,15 +54,17 @@ export const useGame = ({ initialWord, savedGame, playedCombinations, difficulty
     const word = wordData?.word ?? "";
     const category = wordData?.category ?? "";
     const isExhausted = wordData === null;
+    const language = initialWord?.language ? initialWord.language : getLanguage();
 
     const wrongGuesses = guessedLetters.filter((letter) => !word.toLowerCase().includes(letter.toLowerCase()));
     const isGameOver = wrongGuesses.length >= maxAttempts;
+
     const isWin =
         word.length > 0 &&
         word
             .toLowerCase()
             .split("")
-            .filter(isLatinChar)
+            .filter((char) => isValidChar(char, language))
             .every((letter) => guessedLetters.includes(letter.toLowerCase()));
 
     useEffect(() => {
@@ -74,6 +79,7 @@ export const useGame = ({ initialWord, savedGame, playedCombinations, difficulty
                 guessedLetters,
                 won: isWin,
                 difficulty,
+                language,
             });
             const key = `${word.toLowerCase()}:${category.toLowerCase()}`;
             playedCombinationsRef.current?.add(key);
@@ -81,7 +87,7 @@ export const useGame = ({ initialWord, savedGame, playedCombinations, difficulty
                 clearCurrentGame();
             }
         }
-    }, [isGameOver, isWin, word, category, guessedLetters, wordData, isCustomWord, difficulty]);
+    }, [isGameOver, isWin, word, category, guessedLetters, wordData, isCustomWord, difficulty, language]);
 
     const handleNextWord = async () => {
         savedRef.current = false;
@@ -96,11 +102,12 @@ export const useGame = ({ initialWord, savedGame, playedCombinations, difficulty
             }
         }
 
-        const newWord = generateWord(playedCombinationsRef.current);
+        const language = getLanguage();
+        const newWord = generateWord(playedCombinationsRef.current, language);
         setWordData(newWord);
         setGuessedLetters([]);
         if (newWord) {
-            saveCurrentGame(newWord.word, newWord.category, []);
+            saveCurrentGame(newWord.word, newWord.category, language, []);
         } else {
             clearCurrentGame();
         }
@@ -118,7 +125,7 @@ export const useGame = ({ initialWord, savedGame, playedCombinations, difficulty
         setGuessedLetters(newGuessedLetters);
 
         if (wordData) {
-            saveCurrentGame(word, category, newGuessedLetters);
+            saveCurrentGame(word, category, language, newGuessedLetters);
         }
     };
 
