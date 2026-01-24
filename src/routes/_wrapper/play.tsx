@@ -95,13 +95,19 @@ function Game() {
                             {showCategory ? displayCategory : "???"}
                         </span>
                     </p>
-                    <Field word={displayWord} guessedLetters={displayGuessedLetters} isGameOver={displayIsGameOver} />
+                    <Field
+                        word={displayWord}
+                        guessedLetters={displayGuessedLetters}
+                        isGameOver={displayIsGameOver}
+                        language={initialWord?.language}
+                    />
                 </div>
                 <Keyboard
                     word={displayWord}
                     guessedLetters={displayGuessedLetters}
                     onGuess={isAlreadyCompleted ? () => undefined : handleGuess}
                     disabled={isDisabled}
+                    language={initialWord?.language}
                 />
             </div>
         </>

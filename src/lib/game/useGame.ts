@@ -54,11 +54,10 @@ export const useGame = ({ initialWord, savedGame, playedCombinations, difficulty
     const word = wordData?.word ?? "";
     const category = wordData?.category ?? "";
     const isExhausted = wordData === null;
+    const language = initialWord?.language ? initialWord.language : getLanguage();
 
     const wrongGuesses = guessedLetters.filter((letter) => !word.toLowerCase().includes(letter.toLowerCase()));
     const isGameOver = wrongGuesses.length >= maxAttempts;
-
-    const language = getLanguage();
 
     const isWin =
         word.length > 0 &&

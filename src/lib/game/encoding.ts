@@ -4,6 +4,7 @@ export function encodeCustomWord(payload: CustomWordPayload) {
     const json = JSON.stringify({
         word: payload.word,
         category: payload.category || undefined,
+        language: payload.language,
     });
     const uint8Array = new TextEncoder().encode(json);
     let binary = "";

@@ -9,7 +9,9 @@ const isEnglishChar = (char: string) => zod.string().regex(enRegex).safeParse(ch
 const isUkrainianChar = (char: string) => zod.string().regex(ukRegex).safeParse(char).success;
 const isAllAlphabetsChar = (char: string) => zod.string().regex(allAlphabetsRegex).safeParse(char).success;
 
-export const isValidChar = (char: string, language?: Language) => {
+export const isValidChar = (char: string, language?: Language, allowSpaces?: boolean) => {
+    if (allowSpaces && char === " ") return true;
+
     switch (language) {
         case "en":
             return isEnglishChar(char);
