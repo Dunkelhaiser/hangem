@@ -1,71 +1,54 @@
-import { faker } from "@faker-js/faker";
-import type { Language } from "../languages/alphabets";
+import type { Language } from "@/lib/languages/alphabets";
+import { words } from "@/lib/languages/words";
 
 const categories = [
-    { name: "Animal", generator: () => faker.animal.type() },
-    { name: "Product", generator: () => faker.commerce.product() },
-    { name: "Month", generator: () => faker.date.month() },
-    { name: "Day", generator: () => faker.date.weekday() },
-    { name: "Vegetable", generator: () => faker.food.vegetable() },
-    { name: "Fruit", generator: () => faker.food.fruit() },
-    { name: "Ingredient", generator: () => faker.food.ingredient() },
-    { name: "Spice", generator: () => faker.food.spice() },
-    { name: "Country", generator: () => faker.location.country() },
-    { name: "Continent", generator: () => faker.location.continent() },
-    { name: "Direction", generator: () => faker.location.direction() },
-    { name: "Unit", generator: () => faker.science.unit().name },
-    { name: "Element", generator: () => faker.science.chemicalElement().name },
-    { name: "Color", generator: () => faker.color.human() },
-    { name: "Music", generator: () => faker.music.genre() },
-    { name: "Job", generator: () => faker.person.jobType() },
-    { name: "Vehicle", generator: () => faker.vehicle.type() },
-    { name: "Adjective", generator: () => faker.word.adjective() },
+    "animal",
+    "month",
+    "day",
+    "vegetable",
+    "fruit",
+    "spice",
+    "country",
+    "continent",
+    "direction",
+    "unit",
+    "element",
+    "color",
+    "music",
+    "job",
+    "vehicle",
+    "adjective",
 ] as const;
-
-const ukCategories = [
-    {
-        name: "Тварина",
-        words: ["кіт"],
-    },
-    {
-        name: "Місяць",
-        words: ["січень"],
-    },
-    {
-        name: "Фрукт",
-        words: ["яблуко"],
-    },
-    {
-        name: "Овоч",
-        words: ["морква"],
-    },
-    {
-        name: "Країна",
-        words: ["Україна", "Польща", "Німеччина", "Франція", "Італія", "Фландрія", "Румунія"],
-    },
-];
 
 const MAX_ATTEMPTS = 100;
 
+const getRandomElement = <T>(array: T[]) => array[Math.floor(Math.random() * array.length)];
+
 export const generateWord = (playedCombinations?: Set<string>, language: Language = "en") => {
-    if (language === "uk") {
-        for (let i = 0; i < MAX_ATTEMPTS; i++) {
-            const category = ukCategories[Math.floor(Math.random() * ukCategories.length)];
-            const word = category.words[Math.floor(Math.random() * category.words.length)];
-            const key = `${word.toLowerCase()}:${category.name.toLowerCase()}`;
-            if (!playedCombinations?.has(key)) {
-                return { word, category: category.name };
-            }
-        }
+    const languageWords = words[language];
+
+    const availableCategories = categories.filter(
+        (category) => languageWords[category] && languageWords[category].length > 0
+    );
+
+    if (availableCategories.length === 0) {
         return null;
     }
+
     for (let i = 0; i < MAX_ATTEMPTS; i++) {
-        const category = faker.helpers.arrayElement(categories);
-        const word = category.generator();
-        const key = `${word.toLowerCase()}:${category.name.toLowerCase()}`;
+        const category = getRandomElement(availableCategories);
+        const wordArray = languageWords[category];
+
+        if (!wordArray || wordArray.length === 0) {
+            continue;
+        }
+
+        const word = getRandomElement(wordArray);
+        const key = `${word.toLowerCase()}:${category.toLowerCase()}`;
 
         if (!playedCombinations?.has(key)) {
-            return { word, category: category.name };
+            const categoryName = category.charAt(0).toUpperCase() + category.slice(1);
+            return { word, category: categoryName };
         }
     }
 
