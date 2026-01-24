@@ -1,0 +1,144 @@
+{
+    "id": "2ef5440b-33af-43e8-8750-8cd5f31c9a59",
+    "prevId": "fbf29cc7-07e7-4bed-882b-c2082b68ef96",
+    "version": "7",
+    "dialect": "postgresql",
+    "tables": {
+        "public.current_game": {
+            "name": "current_game",
+            "schema": "",
+            "columns": {
+                "id": {
+                    "name": "id",
+                    "type": "serial",
+                    "primaryKey": true,
+                    "notNull": true
+                },
+                "word": {
+                    "name": "word",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "category": {
+                    "name": "category",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "language": {
+                    "name": "language",
+                    "type": "language",
+                    "typeSchema": "public",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "'en'"
+                },
+                "guessed_letters": {
+                    "name": "guessed_letters",
+                    "type": "text[]",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "created_at": {
+                    "name": "created_at",
+                    "type": "timestamp",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "now()"
+                },
+                "updated_at": {
+                    "name": "updated_at",
+                    "type": "timestamp",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "now()"
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {},
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {},
+            "policies": {},
+            "checkConstraints": {},
+            "isRLSEnabled": false
+        },
+        "public.game_history": {
+            "name": "game_history",
+            "schema": "",
+            "columns": {
+                "id": {
+                    "name": "id",
+                    "type": "serial",
+                    "primaryKey": true,
+                    "notNull": true
+                },
+                "word": {
+                    "name": "word",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "category": {
+                    "name": "category",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "language": {
+                    "name": "language",
+                    "type": "language",
+                    "typeSchema": "public",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "'en'"
+                },
+                "guessed_letters": {
+                    "name": "guessed_letters",
+                    "type": "text[]",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "won": {
+                    "name": "won",
+                    "type": "boolean",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "difficulty": {
+                    "name": "difficulty",
+                    "type": "difficulty",
+                    "typeSchema": "public",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "'normal'"
+                },
+                "created_at": {
+                    "name": "created_at",
+                    "type": "timestamp",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "now()"
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {},
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {},
+            "policies": {},
+            "checkConstraints": {},
+            "isRLSEnabled": false
+        }
+    },
+    "enums": {},
+    "schemas": {},
+    "sequences": {},
+    "roles": {},
+    "policies": {},
+    "views": {},
+    "_meta": {
+        "columns": {},
+        "schemas": {},
+        "tables": {}
+    }
+}

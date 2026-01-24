@@ -1,6 +1,7 @@
 import { Check, X } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import type { GameHistory } from "@/db/schema";
+import { codesMap } from "@/lib/languages/alphabets";
 
 interface Props {
     game: GameHistory;
@@ -37,6 +38,10 @@ export const HistoryCard = ({ game }: Props) => {
             </CardHeader>
             <CardContent className="flex flex-col gap-2">
                 <div className="flex gap-4 text-sm text-muted-foreground">
+                    <p>
+                        Language:{" "}
+                        <span className="text-foreground capitalize font-semibold">{codesMap[game.language]}</span>
+                    </p>
                     <p>
                         Category: <span className="text-foreground capitalize font-semibold">{game.category}</span>
                     </p>

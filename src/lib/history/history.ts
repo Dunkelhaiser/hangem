@@ -2,6 +2,7 @@ import { and, asc, desc, eq } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
 import { type CurrentGame, currentGame, type GameHistoryInsert, gameHistory } from "@/db/schema";
+import type { Language } from "../languages/alphabets";
 
 export const sortBySchema = z.enum(["date", "word"]).default("date").catch("date");
 export const orderSchema = z.enum(["asc", "desc"]).default("desc").catch("desc");
@@ -60,10 +61,10 @@ export const getCurrentGame = async (): Promise<CurrentGame | null> => {
     return game ?? null;
 };
 
-export const saveCurrentGame = async (word: string, category: string, guessedLetters: string[]) => {
-    await db.insert(currentGame).values({ id: 1, word, category, guessedLetters }).onConflictDoUpdate({
+export const saveCurrentGame = async (word: string, category: string, language: Language, guessedLetters: string[]) => {
+    await db.insert(currentGame).values({ id: 1, word, category, guessedLetters, language }).onConflictDoUpdate({
         target: currentGame.id,
-        set: { word, category, guessedLetters },
+        set: { word, category, guessedLetters, language },
     });
 };
 
@@ -95,6 +96,7 @@ const importHistorySchema = z.object({
     guessedLetters: z.array(z.string()),
     won: z.boolean(),
     difficulty: z.enum(["normal", "easy", "hard"]),
+    language: z.enum(["en", "uk"]),
     createdAt: z.coerce.date(),
 });
 

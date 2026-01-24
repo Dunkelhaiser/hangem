@@ -69,3 +69,8 @@ export const alphabets: Record<Language, string[]> = {
     en,
     uk,
 };
+
+export const codesMap: Record<Language, string> = {
+    en: "English",
+    uk: "Українська",
+};

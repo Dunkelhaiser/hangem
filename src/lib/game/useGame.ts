@@ -80,6 +80,7 @@ export const useGame = ({ initialWord, savedGame, playedCombinations, difficulty
                 guessedLetters,
                 won: isWin,
                 difficulty,
+                language,
             });
             const key = `${word.toLowerCase()}:${category.toLowerCase()}`;
             playedCombinationsRef.current?.add(key);
@@ -87,7 +88,7 @@ export const useGame = ({ initialWord, savedGame, playedCombinations, difficulty
                 clearCurrentGame();
             }
         }
-    }, [isGameOver, isWin, word, category, guessedLetters, wordData, isCustomWord, difficulty]);
+    }, [isGameOver, isWin, word, category, guessedLetters, wordData, isCustomWord, difficulty, language]);
 
     const handleNextWord = async () => {
         savedRef.current = false;
@@ -107,7 +108,7 @@ export const useGame = ({ initialWord, savedGame, playedCombinations, difficulty
         setWordData(newWord);
         setGuessedLetters([]);
         if (newWord) {
-            saveCurrentGame(newWord.word, newWord.category, []);
+            saveCurrentGame(newWord.word, newWord.category, language, []);
         } else {
             clearCurrentGame();
         }
@@ -125,7 +126,7 @@ export const useGame = ({ initialWord, savedGame, playedCombinations, difficulty
         setGuessedLetters(newGuessedLetters);
 
         if (wordData) {
-            saveCurrentGame(word, category, newGuessedLetters);
+            saveCurrentGame(word, category, language, newGuessedLetters);
         }
     };
 
