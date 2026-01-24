@@ -6,6 +6,7 @@ import { ClearDataBtn } from "./ClearDataBtn";
 import { DifficultySelect } from "./DifficultySelect";
 import { ExportBtn } from "./ExportBtn";
 import { ImportBtn } from "./ImportBtn";
+import { LanguageSelect } from "./LanguageSelect";
 import { ThemeSelect } from "./ThemeSelect";
 
 interface Props {
@@ -29,6 +30,10 @@ const SettingsDialog = ({ trigger }: Props) => {
                         <div className="flex flex-col gap-2">
                             <Label>Theme</Label>
                             <ThemeSelect />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <Label>Language</Label>
+                            <LanguageSelect />
                         </div>
                     </div>
                     <Separator />

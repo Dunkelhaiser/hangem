@@ -18,10 +18,3 @@ export const customWordPayloadSchema = zod.object({
 });
 
 export type CustomWordPayload = zod.infer<typeof customWordPayloadSchema>;
-
-export const isLatinChar = (char: string) =>
-    zod
-        .string()
-        // biome-ignore lint/performance/useTopLevelRegex: doesn't run frequently
-        .regex(/^[a-z]$/i)
-        .safeParse(char).success;

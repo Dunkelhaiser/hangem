@@ -1,4 +1,5 @@
 import { faker } from "@faker-js/faker";
+import type { Language } from "../languages/alphabets";
 
 const categories = [
     { name: "Animal", generator: () => faker.animal.type() },
@@ -21,9 +22,43 @@ const categories = [
     { name: "Adjective", generator: () => faker.word.adjective() },
 ] as const;
 
+const ukCategories = [
+    {
+        name: "Тварина",
+        words: ["кіт"],
+    },
+    {
+        name: "Місяць",
+        words: ["січень"],
+    },
+    {
+        name: "Фрукт",
+        words: ["яблуко"],
+    },
+    {
+        name: "Овоч",
+        words: ["морква"],
+    },
+    {
+        name: "Країна",
+        words: ["Україна", "Польща", "Німеччина", "Франція", "Італія", "Фландрія", "Румунія"],
+    },
+];
+
 const MAX_ATTEMPTS = 100;
 
-export const generateWord = (playedCombinations?: Set<string>) => {
+export const generateWord = (playedCombinations?: Set<string>, language: Language = "en") => {
+    if (language === "uk") {
+        for (let i = 0; i < MAX_ATTEMPTS; i++) {
+            const category = ukCategories[Math.floor(Math.random() * ukCategories.length)];
+            const word = category.words[Math.floor(Math.random() * category.words.length)];
+            const key = `${word.toLowerCase()}:${category.name.toLowerCase()}`;
+            if (!playedCombinations?.has(key)) {
+                return { word, category: category.name };
+            }
+        }
+        return null;
+    }
     for (let i = 0; i < MAX_ATTEMPTS; i++) {
         const category = faker.helpers.arrayElement(categories);
         const word = category.generator();

@@ -1,3 +1,5 @@
+import { getLanguage } from "@/components/menu/Settings/LanguageSelect";
+import { isValidChar } from "@/lib/languages/validators";
 import { Letter } from "./Letter";
 
 interface Props {
@@ -7,6 +9,8 @@ interface Props {
 }
 
 const Field = ({ word, guessedLetters, isGameOver }: Props) => {
+    const language = getLanguage();
+
     const getVariant = (char: string) => {
         const isGuessed = guessedLetters.includes(char.toLowerCase());
 
@@ -29,8 +33,7 @@ const Field = ({ word, guessedLetters, isGameOver }: Props) => {
                 <div key={wordIndex} className="flex flex-wrap justify-center max-w-full gap-y-2">
                     {word
                         .split("")
-                        // biome-ignore lint/performance/useTopLevelRegex: doesn't run frequently
-                        .filter((char) => /[a-z]/i.test(char))
+                        .filter((char) => isValidChar(char, language))
                         .map((char, charIndex) => (
                             // biome-ignore lint/suspicious/noArrayIndexKey: index needed for duplicate letters
                             <Letter key={charIndex} letter={char} variant={getVariant(char)} />

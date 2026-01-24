@@ -1,34 +1,8 @@
 import { useHotkeys } from "react-hotkeys-hook";
+import { getLanguage } from "@/components/menu/Settings/LanguageSelect";
+import { alphabets } from "@/lib/languages/alphabets";
+import { isValidChar } from "@/lib/languages/validators";
 import { Key } from "./Key";
-
-const alphabet = [
-    "a",
-    "b",
-    "c",
-    "d",
-    "e",
-    "f",
-    "g",
-    "h",
-    "i",
-    "j",
-    "k",
-    "l",
-    "m",
-    "n",
-    "o",
-    "p",
-    "q",
-    "r",
-    "s",
-    "t",
-    "u",
-    "v",
-    "w",
-    "x",
-    "y",
-    "z",
-];
 
 interface Props {
     word: string;
@@ -38,16 +12,19 @@ interface Props {
 }
 
 const Keyboard = ({ word, guessedLetters, onGuess, disabled }: Props) => {
+    const lang = getLanguage();
+    const alphabet = alphabets[lang];
+
     useHotkeys(
-        alphabet.join(","),
-        (_, handler) => {
-            const key = handler.keys?.join("");
-            if (key && !disabled && !guessedLetters.includes(key.toLowerCase())) {
+        "*",
+        (event) => {
+            const key = event.key?.toLowerCase();
+            if (key && isValidChar(key, lang) && !disabled && !guessedLetters.includes(key)) {
                 onGuess(key);
             }
         },
         { enabled: !disabled },
-        [guessedLetters, onGuess, disabled]
+        [guessedLetters, onGuess, disabled, lang]
     );
 
     const getKeyVariant = (letter: string) => {
